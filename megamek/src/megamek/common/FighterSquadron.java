@@ -350,7 +350,7 @@ public class FighterSquadron extends AeroSpaceFighter {
                 // can't fire with no more FCS
                 continue;
             }
-            for (Mounted mounted : entity.getWeaponGroupList()) {
+            for (Mounted<?> mounted : entity.getWeaponGroupList()) {
                 if (mounted.isHit() || mounted.isDestroyed()) {
                     continue;
                 }
@@ -480,7 +480,7 @@ public class FighterSquadron extends AeroSpaceFighter {
     public int[] getBombLoadout() {
         int[] loadout = new int[BombType.B_NUM];
         for (Entity fighter : getSubEntities()) {
-            for (Mounted m : fighter.getBombs()) {
+            for (Mounted<?> m : fighter.getBombs()) {
                 loadout[((BombType) m.getType()).getBombType()]++;
             }
         }
@@ -507,7 +507,7 @@ public class FighterSquadron extends AeroSpaceFighter {
      */
     public void computeSquadronBombLoadout() {
         // Remove any currently equipped bombs
-        for (Mounted bomb : bombList) {
+        for (Mounted<?> bomb : bombList) {
             equipmentList.remove(bomb);
         }
         bombList.clear();
@@ -518,7 +518,7 @@ public class FighterSquadron extends AeroSpaceFighter {
             int maxBombCount = 0;
             for (Entity fighter : getSubEntities()) {
                 int bombCount = 0;
-                for (Mounted m : fighter.getBombs()) {
+                for (Mounted<?> m : fighter.getBombs()) {
                     if (((BombType) m.getType()).getBombType() == btype) {
                         bombCount++;
                     }

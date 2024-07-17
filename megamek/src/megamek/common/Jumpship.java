@@ -851,7 +851,7 @@ public class Jumpship extends Aero {
     // different firing arcs
     @Override
     public int getWeaponArc(int wn) {
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
 
         int arc;
         switch (mounted.getLocation()) {
@@ -1084,7 +1084,7 @@ public class Jumpship extends Aero {
     }
 
     public boolean hasWeaponInArc(int loc) {
-        for (Mounted weap : getWeaponList()) {
+        for (Mounted<?> weap : getWeaponList()) {
             if (weap.getLocation() == loc) {
                 return true;
             }

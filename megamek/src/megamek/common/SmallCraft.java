@@ -564,7 +564,7 @@ public class SmallCraft extends Aero {
     // weapon arcs
     @Override
     public int getWeaponArc(int wn) {
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
 
         int arc = Compute.ARC_NOSE;
         if (!isSpheroid()) {
@@ -708,7 +708,7 @@ public class SmallCraft extends Aero {
 
     public boolean hasWeaponInArc(int loc, boolean rearMount) {
         boolean hasWeapons = false;
-        for (Mounted weap : getWeaponList()) {
+        for (Mounted<?> weap : getWeaponList()) {
             if ((weap.getLocation() == loc) && (weap.isRearMounted() == rearMount)) {
                 hasWeapons = true;
             }
@@ -811,7 +811,7 @@ public class SmallCraft extends Aero {
         int range = -1;
         // if the unit has an ECM unit, then the range might be extended by one
         if (!isShutDown()) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 EquipmentType type = m.getType();
                 if ((type instanceof MiscType) && type.hasFlag(MiscType.F_ECM) && !m.isInoperable()) {
                     if (type.hasFlag(MiscType.F_SINGLE_HEX_ECM)) {

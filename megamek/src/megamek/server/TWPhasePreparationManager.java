@@ -26,8 +26,6 @@ import megamek.common.planetaryconditions.PlanetaryConditions;
 import megamek.common.util.EmailService;
 import org.apache.logging.log4j.LogManager;
 
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Vector;
 import java.util.stream.Collectors;
 

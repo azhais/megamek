@@ -106,8 +106,8 @@ public class ComputeECMTest {
         assertNull(eccmInfo);
         
         // Change mode from ECM to ECCM
-        Mounted ecm = null;
-        for (Mounted m : archer.getMisc()) {
+        Mounted<?> ecm = null;
+        for (Mounted<?> m : archer.getMisc()) {
             if (m.getType().equals(eType)) {
                 ecm = m;
             }
@@ -163,7 +163,7 @@ public class ComputeECMTest {
         
         archer.setGameOptions();
         ecm = null;
-        for (Mounted m : archer.getMisc()) {
+        for (Mounted<?> m : archer.getMisc()) {
             if (m.getType().equals(eType)) {
                 ecm = m;
             }

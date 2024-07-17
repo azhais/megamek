@@ -479,7 +479,7 @@ public class CapitalMissileBayHandler extends AmmoBayWeaponHandler {
         }
 
         for (int wId : insertedAttacks) {
-            Mounted bayW = ae.getEquipment(wId);
+            Mounted<?> bayW = ae.getEquipment(wId);
             WeaponAttackAction newWaa = new WeaponAttackAction(ae.getId(),
                     waa.getTargetId(), wId);
             Weapon w = (Weapon) bayW.getType();

@@ -4222,7 +4222,7 @@ public abstract class Entity extends TurnOrdered implements Transporter, Targeta
                 || (slot.getType() != CriticalSlot.TYPE_EQUIPMENT)) {
                 continue;
             }
-            Mounted mounted = slot.getMount();
+            Mounted<?> mounted = slot.getMount();
             if ((mounted.getType() instanceof WeaponType)
                 && mounted.isUsedThisRound()) {
                 return true;
@@ -5296,7 +5296,7 @@ public abstract class Entity extends TurnOrdered implements Transporter, Targeta
 
     // MiscType.F_ECM should be part of all ECM systems
     public boolean hasECM() {
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             EquipmentType type = m.getType();
             if ((type instanceof MiscType) && type.hasFlag(MiscType.F_ECM)) {
                 return true;
@@ -5384,7 +5384,6 @@ public abstract class Entity extends TurnOrdered implements Transporter, Targeta
             && game.getOptions().booleanOption(OptionsConstants.ADVANCED_TACOPS_ECCM)
             && !isShutDown()) {
             for (MiscMounted m : getMisc()) {
-                EquipmentType type = m.getType();
                 if (m.getType().hasFlag(MiscType.F_ANGEL_ECM)
                     && (m.curMode().equals("ECCM")
                         || m.curMode().equals("ECM & ECCM") || m
@@ -7713,7 +7712,6 @@ public abstract class Entity extends TurnOrdered implements Transporter, Targeta
             EntityMovementType moveType, Hex curHex, Coords lastPos,
             Coords curPos, boolean isLastStep, boolean isPavementStep) {
         PilotingRollData roll = getBasePilotingRoll(moveType);
-        boolean enteringRubble = true;
         addPilotingModifierForTerrain(roll, curPos, true);
 
         if (!lastPos.equals(curPos)

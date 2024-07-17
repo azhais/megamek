@@ -25,7 +25,6 @@ import megamek.common.strategicBattleSystems.SBFFormation;
 import megamek.common.strategicBattleSystems.SBFVisibilityStatus;
 import org.apache.logging.log4j.LogManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static megamek.common.alphaStrike.BattleForceSUA.*;
@@ -65,7 +64,6 @@ record SBFDetectionHelper(SBFGameManager gameManager) implements SBFGameManagerH
                 if (range >= distance) {
                     //roll and report
                     Roll diceRoll = Compute.rollD6(2);
-                    List<TargetRollModifier> modifiers = sensorTargetRollModifiers(viewingFormation, hostileFormation);
                     visibilityStatus = visibilityStatus.betterOf(sensorDetectionResult(diceRoll));
                     LogManager.getLogger().info("Detected from "+viewingFormation.getId()+" to "+hostileFormation.getId()+" result "+sensorDetectionResult(diceRoll));
                 }
@@ -118,28 +116,4 @@ record SBFDetectionHelper(SBFGameManager gameManager) implements SBFGameManagerH
         };
     }
 
-    private List<TargetRollModifier> sensorTargetRollModifiers(SBFFormation viewer, SBFFormation target) {
-        List<TargetRollModifier> result = new ArrayList<>();
-        int range = sensorRange(viewer);
-        int distance = viewer.getPosition().getCoords()
-                .distance(target.getPosition().getCoords());
-        if (distance < range) {
-            result.add(new TargetRollModifier(Math.min(4, range - distance), "distance below sensor range"));
-        } else if (distance > range) {
-            //TODO make this automatic fail like in ToHit
-            result.add(new TargetRollModifier(-1000, "distance above sensor range"));
-        }
-        if (target.hasSUA(AECM) && target.hasAnySUAOf(STL, MAS, LMAS)) {
-            result.add(new TargetRollModifier(-3, "target has AECM and STL, MAS or LMAS"));
-        } else if (target.hasAnySUAOf(STL, MAS, LMAS)) {
-            result.add(new TargetRollModifier(-2, "target has STL, MAS or LMAS"));
-        } else if (target.hasSUA(AECM) && viewer.hasSUA(BH)) {
-            result.add(new TargetRollModifier(-1, "target has AECM, viewer has BH"));
-        } else if (target.hasSUA(AECM)) {
-            result.add(new TargetRollModifier(-2, "target has AECM"));
-        } else if (target.hasAnySUAOf(ECM, WAT, LECM) && !viewer.hasSUA(BH)) {
-            result.add(new TargetRollModifier(-1, "target has ECM, WAT or LECM"));
-        }
-        return result;
-    }
 }

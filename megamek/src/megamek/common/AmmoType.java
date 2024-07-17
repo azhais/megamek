@@ -663,7 +663,7 @@ public class AmmoType extends EquipmentType {
      * @param mounted
      * @return
      */
-    public static AmmoType getOneshotAmmo(Mounted mounted) {
+    public static AmmoType getOneshotAmmo(Mounted<?> mounted) {
         WeaponType wt = (WeaponType) mounted.getType();
         if (wt.getAmmoType() == -1) {
             return null;
@@ -14335,7 +14335,7 @@ public class AmmoType extends EquipmentType {
      * @param weaponType The weapon the ammo is to be used with.
      * @return TRUE if the ammo and weapon are compatible.
      */
-    public static boolean isAmmoValid(Mounted ammo, WeaponType weaponType) {
+    public static boolean isAmmoValid(Mounted<?> ammo, WeaponType weaponType) {
         if (ammo == null) {
             return false;
         } else if (!(ammo.getType() instanceof AmmoType)) {

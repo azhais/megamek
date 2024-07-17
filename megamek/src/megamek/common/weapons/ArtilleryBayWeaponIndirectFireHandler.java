@@ -160,7 +160,7 @@ public class ArtilleryBayWeaponIndirectFireHandler extends AmmoBayWeaponHandler 
             return true;
         }
 
-        Mounted ammoUsed = ae.getEquipment(aaa.getAmmoId());
+        Mounted<?> ammoUsed = ae.getEquipment(aaa.getAmmoId());
         final AmmoType atype = (AmmoType) ammoUsed.getType();
 
         // Are there any valid spotters?

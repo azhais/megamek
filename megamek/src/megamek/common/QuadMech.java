@@ -91,7 +91,7 @@ public class QuadMech extends Mech {
 
         // A Mech using tracks has its movement reduced by 25% per leg or track destroyed.
         if (movementMode == EntityMovementMode.TRACKED) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 if (m.getType().hasFlag(MiscType.F_TRACKS)) {
                     if (m.isHit() || isLocationBad(m.getLocation())) {
                         legsDestroyed++;
@@ -233,7 +233,7 @@ public class QuadMech extends Mech {
      */
     @Override
     public int getWeaponArc(int wn) {
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
 
         // B-Pods need to be special-cased, the have 360 firing arc
         if ((mounted.getType() instanceof WeaponType) &&
@@ -890,7 +890,7 @@ public class QuadMech extends Mech {
         boolean rearRightLeg = false;
         boolean rearLeftLeg = false;
 
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if (IntStream.of(Mech.LOC_LLEG, Mech.LOC_RLEG, Mech.LOC_LARM, Mech.LOC_RARM)
                     .anyMatch(i -> (mounted.getLocation() == i))) {
                 if (mounted.getType().hasFlag(MiscType.F_ACTUATOR_ENHANCEMENT_SYSTEM)

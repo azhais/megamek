@@ -19,7 +19,6 @@
 package megamek.server.commands;
 
 import megamek.common.Player;
-import megamek.common.enums.GamePhase;
 import megamek.server.GameManager;
 import megamek.server.Server;
 

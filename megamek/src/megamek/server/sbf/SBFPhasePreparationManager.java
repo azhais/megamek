@@ -20,7 +20,6 @@ package megamek.server.sbf;
 
 import megamek.MegaMek;
 import megamek.common.InGameObject;
-import megamek.common.Player;
 import megamek.common.enums.GamePhase;
 import megamek.common.options.OptionsConstants;
 import megamek.common.strategicBattleSystems.SBFFormation;

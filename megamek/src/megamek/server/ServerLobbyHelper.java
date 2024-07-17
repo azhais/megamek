@@ -18,7 +18,6 @@
  */
 package megamek.server;
 
-import megamek.client.ui.swing.lobby.LobbyActions;
 import megamek.common.Entity;
 import megamek.common.ForceAssignable;
 import megamek.common.Game;

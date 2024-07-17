@@ -58,7 +58,7 @@ public class BombAttackHandler extends WeaponHandler {
         for (int type = 0; type < payload.length; type++) {
             for (int i = 0; i < payload[type]; i++) {
                 // find the first mounted bomb of this type and drop it
-                for (Mounted bomb : ae.getBombs()) {
+                for (Mounted<?> bomb : ae.getBombs()) {
                     if (!bomb.isDestroyed()
                             && (bomb.getUsableShotsLeft() > 0)
                             && (((BombType) bomb.getType()).getBombType() == type)

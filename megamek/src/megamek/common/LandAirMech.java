@@ -501,7 +501,7 @@ public class LandAirMech extends BipedMech implements IAero, IBomber {
             if (getConversionMode() == CONV_MODE_FIGHTER) {
                 setRapidFire();
             } else if (prevMode == CONV_MODE_FIGHTER) {
-                for (Mounted m : getTotalWeaponList()) {
+                for (Mounted<?> m : getTotalWeaponList()) {
                     WeaponType wtype = (WeaponType) m.getType();
                     if (wtype.getAmmoType() == AmmoType.T_AC_ROTARY) {
                         m.setMode("");
@@ -1072,9 +1072,9 @@ public class LandAirMech extends BipedMech implements IAero, IBomber {
      */
     @Override
     public boolean hasInfernoAmmo() {
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             if (m.getType().hasFlag(MiscType.F_BOMB_BAY) && m.getLinked() != null) {
-                Mounted bomb = m.getLinked();
+                Mounted<?> bomb = m.getLinked();
                 // We may have to go through a launcher to get to the ordnance
                 if (bomb.getLinked() != null) {
                     bomb = bomb.getLinked();
@@ -1431,7 +1431,7 @@ public class LandAirMech extends BipedMech implements IAero, IBomber {
         if (getConversionMode() != CONV_MODE_FIGHTER) {
             return super.getWeaponArc(wn);
         }
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
         if (mounted.getType().hasFlag(WeaponType.F_SPACE_BOMB) || mounted.getType().hasFlag(WeaponType.F_DIVE_BOMB)
                 || mounted.getType().hasFlag(WeaponType.F_ALT_BOMB)) {
             return Compute.ARC_360;
@@ -1862,7 +1862,7 @@ public class LandAirMech extends BipedMech implements IAero, IBomber {
     @Override
     public Map<String, Integer> groupWeaponsByLocation() {
         Map<String, Integer> groups = new HashMap<>();
-        for (Mounted mounted : getTotalWeaponList()) {
+        for (Mounted<?> mounted : getTotalWeaponList()) {
             int loc = LOC_CAPITAL_WINGS;
             if ((loc == Mech.LOC_CT) || (loc == Mech.LOC_HEAD)) {
                 loc = LOC_CAPITAL_NOSE;
@@ -2011,7 +2011,7 @@ public class LandAirMech extends BipedMech implements IAero, IBomber {
     }
 
     @Override
-    protected void addBomb(Mounted mounted, int loc) throws LocationFullException {
+    protected void addBomb(Mounted<?> mounted, int loc) throws LocationFullException {
         if ((loc < 0) || (loc >= crits.length)) {
             LogManager.getLogger().error("Cannot add bomb " + mounted.getName() + " at illegal location " + loc);
             return;

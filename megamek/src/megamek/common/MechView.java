@@ -507,7 +507,7 @@ public class MechView {
             }
 
             List<String> wpQuirksList = new ArrayList<>();
-            for (Mounted weapon: entity.getWeaponList()) {
+            for (Mounted<?> weapon: entity.getWeaponList()) {
                 List<String> activeWeaponQuirksNames = weapon.getQuirks().activeQuirks().stream()
                         .map(IOption::getDisplayableNameWithValue)
                         .collect(Collectors.toList());
@@ -981,11 +981,11 @@ public class MechView {
         return retVal;
     }
 
-    private String quirkMarker(Mounted mounted) {
+    private String quirkMarker(Mounted<?> mounted) {
         return (mounted.countQuirks() > 0) ? " (Q)" : "";
     }
 
-    private boolean hideAmmo(Mounted mounted) {
+    private boolean hideAmmo(Mounted<?> mounted) {
         return ((mounted.getLinkedBy() != null) && mounted.getLinkedBy().isOneShot())
                 || (mounted.getSize() == 0) || (mounted.getLocation() == Entity.LOC_NONE);
     }
@@ -996,7 +996,7 @@ public class MechView {
         ammoTable.setJustification(TableElement.JUSTIFIED_LEFT, TableElement.JUSTIFIED_CENTER,
                 TableElement.JUSTIFIED_CENTER, TableElement.JUSTIFIED_CENTER);
 
-        for (Mounted mounted : entity.getAmmo()) {
+        for (Mounted<?> mounted : entity.getAmmo()) {
             if (hideAmmo(mounted)) {
                 continue;
             }
@@ -1016,7 +1016,7 @@ public class MechView {
             }
         }
         if (entity.getWeightClass() == EntityWeightClass.WEIGHT_SMALL_SUPPORT) {
-            for (Mounted mounted : entity.getWeaponList()) {
+            for (Mounted<?> mounted : entity.getWeaponList()) {
                 String[] row = {mounted.getName(),
                         entity.getLocationAbbr(mounted.getLocation()),
                         String.valueOf((int) mounted.getSize() * ((InfantryWeapon) mounted.getType()).getShots()),
@@ -1027,7 +1027,7 @@ public class MechView {
                             Messages.getString("MechView.Fixed");
                 }
                 int shotsLeft = 0;
-                for (Mounted current = mounted.getLinked(); current != null; current = current.getLinked()) {
+                for (Mounted<?> current = mounted.getLinked(); current != null; current = current.getLinked()) {
                     shotsLeft += current.getUsableShotsLeft();
                 }
                 if (mounted.isDestroyed()) {
@@ -1068,7 +1068,7 @@ public class MechView {
         miscTable.setJustification(TableElement.JUSTIFIED_LEFT, TableElement.JUSTIFIED_CENTER,
                 TableElement.JUSTIFIED_CENTER);
         int nEquip = 0;
-        for (Mounted mounted : entity.getMisc()) {
+        for (Mounted<?> mounted : entity.getMisc()) {
             String name = mounted.getName();
             if ((((mounted.getLocation() == Entity.LOC_NONE)
                         // Mechs can have zero-slot equipment in LOC_NONE that needs to be shown.

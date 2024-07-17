@@ -53,7 +53,7 @@ public class Tank extends Entity {
     private boolean moderateMovementDamage = false;
     private boolean heavyMovementDamage = false;
     private boolean infernoFire = false;
-    private ArrayList<Mounted> jammedWeapons = new ArrayList<>();
+    private ArrayList<Mounted<?>> jammedWeapons = new ArrayList<>();
     protected boolean engineHit = false;
 
     // locations
@@ -923,7 +923,7 @@ public class Tank extends Entity {
      */
     @Override
     public int getWeaponArc(int wn) {
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
 
         // B-Pods need to be special-cased, the have 360 firing arc
         if ((mounted.getType() instanceof WeaponType)
@@ -1674,7 +1674,7 @@ public class Tank extends Entity {
         }
         int explicit = 0;
         Set<Integer> caseLocations = new HashSet<>();
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if ((m.getType() instanceof MiscType) && (m.getType().hasFlag(MiscType.F_CASE))) {
                 explicit++;
             } else if (m.getType().isExplosive(m)) {
@@ -1828,7 +1828,7 @@ public class Tank extends Entity {
     }
 
     @Override
-    public void addEquipment(Mounted mounted, int loc, boolean rearMounted)
+    public void addEquipment(Mounted<?> mounted, int loc, boolean rearMounted)
             throws LocationFullException {
         if (getEquipmentNum(mounted) == -1) {
             super.addEquipment(mounted, loc, rearMounted);
@@ -1880,7 +1880,7 @@ public class Tank extends Entity {
                             }
                         }
                     case 7:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isJammed() && !m.isHit()
                                     && !m.jammedThisPhase()) {
@@ -1889,7 +1889,7 @@ public class Tank extends Entity {
                         }
                     case 8:
                         if (!isStabiliserHit(loc)) {
-                            for (Mounted m : getWeaponList()) {
+                            for (Mounted<?> m : getWeaponList()) {
                                 if (m.getLocation() == loc) {
                                     return CRIT_STABILIZER;
                                 }
@@ -1910,7 +1910,7 @@ public class Tank extends Entity {
                             }
                         }
                     case 11:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isHit()) {
                                 return CRIT_WEAPON_DESTROYED;
@@ -1924,7 +1924,7 @@ public class Tank extends Entity {
             } else if (loc == LOC_REAR) {
                 switch (roll) {
                     case 6:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isJammed() && !m.isHit()
                                     && !m.jammedThisPhase()) {
@@ -1937,14 +1937,14 @@ public class Tank extends Entity {
                         }
                     case 8:
                         if (!isStabiliserHit(loc)) {
-                            for (Mounted m : getWeaponList()) {
+                            for (Mounted<?> m : getWeaponList()) {
                                 if (m.getLocation() == loc) {
                                     return CRIT_STABILIZER;
                                 }
                             }
                         }
                     case 9:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isHit()) {
                                 return CRIT_WEAPON_DESTROYED;
@@ -1955,7 +1955,7 @@ public class Tank extends Entity {
                             return (hasEngine() ? CRIT_ENGINE : CRIT_NONE);
                         }
                     case 11:
-                        for (Mounted m : getAmmo()) {
+                        for (Mounted<?> m : getAmmo()) {
                             if (!m.isDestroyed() && !m.isHit()
                                     && (m.getLocation() != Entity.LOC_NONE)) {
                                 return CRIT_AMMO;
@@ -1976,7 +1976,7 @@ public class Tank extends Entity {
                 switch (roll) {
                     case 6:
                         if (!isStabiliserHit(loc)) {
-                            for (Mounted m : getWeaponList()) {
+                            for (Mounted<?> m : getWeaponList()) {
                                 if (m.getLocation() == loc) {
                                     return CRIT_STABILIZER;
                                 }
@@ -1987,7 +1987,7 @@ public class Tank extends Entity {
                             return CRIT_TURRET_JAM;
                         }
                     case 8:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isJammed() && !m.isHit()
                                     && !m.jammedThisPhase()) {
@@ -1999,14 +1999,14 @@ public class Tank extends Entity {
                             return CRIT_TURRET_LOCK;
                         }
                     case 10:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isHit()) {
                                 return CRIT_WEAPON_DESTROYED;
                             }
                         }
                     case 11:
-                        for (Mounted m : getAmmo()) {
+                        for (Mounted<?> m : getAmmo()) {
                             if (!m.isDestroyed() && !m.isHit()
                                     && (m.getLocation() != Entity.LOC_NONE)) {
                                 return CRIT_AMMO;
@@ -2022,7 +2022,7 @@ public class Tank extends Entity {
                             return CRIT_CARGO;
                         }
                     case 7:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isJammed() && !m.isHit()
                                     && !m.jammedThisPhase()) {
@@ -2038,14 +2038,14 @@ public class Tank extends Entity {
                         }
                     case 9:
                         if (!isStabiliserHit(loc)) {
-                            for (Mounted m : getWeaponList()) {
+                            for (Mounted<?> m : getWeaponList()) {
                                 if (m.getLocation() == loc) {
                                     return CRIT_STABILIZER;
                                 }
                             }
                         }
                     case 10:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isHit()) {
                                 return CRIT_WEAPON_DESTROYED;
@@ -2122,7 +2122,7 @@ public class Tank extends Entity {
             // look for explicit installed trailer hitches and note location
             boolean front = false;
             boolean rear = false;
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 if (m.getType().hasFlag(MiscType.F_HITCH)) {
                     if (m.getLocation() == Tank.LOC_FRONT && !isTrailer()) {
                         front = true;
@@ -2179,11 +2179,11 @@ public class Tank extends Entity {
         return (m_bTurretJammed || m_bDualTurretJammed) && getStunnedTurns() <= 0;
     }
 
-    public void addJammedWeapon(Mounted weapon) {
+    public void addJammedWeapon(Mounted<?> weapon) {
         jammedWeapons.add(weapon);
     }
 
-    public ArrayList<Mounted> getJammedWeapons() {
+    public ArrayList<Mounted<?>> getJammedWeapons() {
         return jammedWeapons;
     }
 
@@ -2199,7 +2199,7 @@ public class Tank extends Entity {
         immobilize();
         lockTurret(getLocTurret());
         lockTurret(getLocTurret2());
-        for (Mounted m : getWeaponList()) {
+        for (Mounted<?> m : getWeaponList()) {
             WeaponType wtype = (WeaponType) m.getType();
             if (wtype.hasFlag(WeaponType.F_ENERGY)
             // Chemical lasers still work even after an engine hit.
@@ -2215,7 +2215,7 @@ public class Tank extends Entity {
     public void engineFix() {
         engineHit = false;
         unlockTurret();
-        for (Mounted m : getWeaponList()) {
+        for (Mounted<?> m : getWeaponList()) {
             WeaponType wtype = (WeaponType) m.getType();
             if (wtype.hasFlag(WeaponType.F_ENERGY)) {
                 // not destroyed, just unpowered
@@ -2307,7 +2307,7 @@ public class Tank extends Entity {
     @Override
     public boolean isStealthActive() {
         // Try to find a Mek Stealth system.
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_STEALTH)) {
 
@@ -2334,7 +2334,7 @@ public class Tank extends Entity {
     @Override
     public boolean isStealthOn() {
         // Try to find a Mek Stealth system.
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_STEALTH)) {
                 if (mEquip.curMode().equals("On")) {
@@ -2365,7 +2365,7 @@ public class Tank extends Entity {
         int availableSlots = getTotalSlots();
         int usedSlots = 0;
         boolean addedCargo = false;
-        for (Mounted mount : this.getEquipment()) {
+        for (Mounted<?> mount : this.getEquipment()) {
             if ((mount.getType() instanceof MiscType)
                     && mount.getType().hasFlag(MiscType.F_CARGO)) {
                 if (!addedCargo) {
@@ -2536,7 +2536,7 @@ public class Tank extends Entity {
      * to exceed its normal run to actually engage the MASC system
      */
     public boolean hasArmedMASC() {
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if (!m.isDestroyed()
                     && !m.isBreached()
                     && (m.getType() instanceof MiscType)
@@ -2737,7 +2737,7 @@ public class Tank extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -2762,7 +2762,7 @@ public class Tank extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -2793,7 +2793,7 @@ public class Tank extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }

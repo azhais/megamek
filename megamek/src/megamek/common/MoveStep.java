@@ -2045,7 +2045,7 @@ public class MoveStep implements Serializable {
             // can only use safe thrust when ammo (or bomb) dumping
             // (unless out of control?)
             boolean bDumping = false;// a.isDumpingBombs();
-            for (Mounted mo : entity.getAmmo()) {
+            for (Mounted<?> mo : entity.getAmmo()) {
                 if (mo.isDumping()) {
                     bDumping = true;
                     break;
@@ -3423,7 +3423,7 @@ public class MoveStep implements Serializable {
 
         // mechs dumping ammo can't run
         boolean bDumping = false;
-        for (Mounted mo : entity.getAmmo()) {
+        for (Mounted<?> mo : entity.getAmmo()) {
             if (mo.isDumping()) {
                 bDumping = true;
                 break;

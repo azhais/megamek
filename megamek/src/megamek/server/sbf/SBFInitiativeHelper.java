@@ -85,7 +85,6 @@ public record SBFInitiativeHelper(SBFGameManager gameManager) implements SBFGame
             // if a player has any "even" moving units. ???????????????????????????????????? SBF?
             Report r = new Report(1020, Report.PUBLIC);
 
-            boolean hasEven = false;
             for (SBFTurn turn : game().getTurnsList()) {
                 Player player = game().getPlayer(turn.playerId());
                 if (null != player) {

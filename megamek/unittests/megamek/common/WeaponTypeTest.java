@@ -19,16 +19,10 @@
 package megamek.common;
 
 import megamek.common.equipment.WeaponMounted;
-import megamek.common.weapons.Weapon;
-import megamek.common.weapons.bayweapons.BayWeapon;
-import megamek.common.weapons.bayweapons.PPCBayWeapon;
-import megamek.common.weapons.ppc.ISERPPC;
-import megamek.common.weapons.ppc.PPCWeapon;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Enumeration;
-import java.util.Vector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;

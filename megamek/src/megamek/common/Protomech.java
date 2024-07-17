@@ -24,7 +24,6 @@ import org.apache.logging.log4j.LogManager;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -177,10 +176,10 @@ public class Protomech extends Entity {
      *         value will be <code>null</code> if no weapon is in the indicated
      *         location.
      */
-    public Mounted getTorsoWeapon(int torsoNum) {
+    public Mounted<?> getTorsoWeapon(int torsoNum) {
         int index = torsoNum - SYSTEM_TORSO_WEAPON_A;
         // There are some non-weapons that take up weapon critical slots
-        List<Mounted> torsoEquipment = getEquipment().stream().filter(m -> (m.getLocation() == LOC_TORSO)
+        List<Mounted<?>> torsoEquipment = getEquipment().stream().filter(m -> (m.getLocation() == LOC_TORSO)
                 && m.getType().isHittable()).collect(Collectors.toList());
         if (index < torsoEquipment.size()) {
             return torsoEquipment.get(index);
@@ -383,7 +382,7 @@ public class Protomech extends Entity {
     @Override
     public void newRound(int roundNumber) {
         if (hasWorkingMisc(MiscType.F_ELECTRIC_DISCHARGE_ARMOR) && !edpCharged) {
-            for (Mounted misc : getMisc()) {
+            for (Mounted<?> misc : getMisc()) {
                 if (misc.getType().hasFlag(MiscType.F_ELECTRIC_DISCHARGE_ARMOR)
                         && misc.curMode().equals("charging")) {
                     if (edpChargeTurns == 6) {
@@ -569,7 +568,7 @@ public class Protomech extends Entity {
 
     /** @return True if this ProtoMek mounts an operable Myomer Booster. See {@link Mounted#isOperable()}. */
     public boolean hasMyomerBooster() {
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_MASC) && !mEquip.isInoperable()) {
                 return true;
@@ -583,7 +582,7 @@ public class Protomech extends Entity {
      */
     @Override
     public int getWeaponArc(int wn) {
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
         // rear mounted?
         if (mounted.isRearMounted()) {
             return Compute.ARC_REAR;
@@ -854,7 +853,7 @@ public class Protomech extends Entity {
      * Creates a new mount for this equipment and adds it in.
      */
     @Override
-    public Mounted addEquipment(EquipmentType etype, int loc)
+    public Mounted<?> addEquipment(EquipmentType etype, int loc)
             throws LocationFullException {
         return addEquipment(etype, loc, false, -1);
     }
@@ -1269,7 +1268,7 @@ public class Protomech extends Entity {
     }
 
     public boolean isEDPCharging() {
-        for (Mounted misc : getMisc()) {
+        for (Mounted<?> misc : getMisc()) {
             if (misc.getType().hasFlag(MiscType.F_ELECTRIC_DISCHARGE_ARMOR)
                     && misc.curMode().equals("charging")) {
                 return true;
@@ -1324,7 +1323,7 @@ public class Protomech extends Entity {
             return true;
         }
 
-        for (Mounted weap : getWeaponList()) {
+        for (Mounted<?> weap : getWeaponList()) {
             if (!weap.isCrippled()) {
                 return false;
             }
@@ -1353,7 +1352,7 @@ public class Protomech extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -1373,7 +1372,7 @@ public class Protomech extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -1393,7 +1392,7 @@ public class Protomech extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -1476,7 +1475,7 @@ public class Protomech extends Entity {
     @Override
     public int getJumpType() {
         jumpType = JUMP_NONE;
-        for (Mounted m : miscList) {
+        for (Mounted<?> m : miscList) {
             if (m.getType().hasFlag(MiscType.F_JUMP_JET)) {
                 if (m.getType().hasSubType(MiscType.S_IMPROVED)) {
                     jumpType = JUMP_IMPROVED;

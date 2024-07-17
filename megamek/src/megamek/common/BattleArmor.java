@@ -255,7 +255,7 @@ public class BattleArmor extends Infantry {
     public static final int LOC_TROOPER_6 = 6;
 
     /**
-     * The location for mounted equipment on BA
+     * The location for Mounted equipment on BA
      */
     public static final int MOUNT_LOC_NONE   = -1;
     public static final int MOUNT_LOC_BODY   = 0;
@@ -482,7 +482,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public boolean hasMyomerBooster() {
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_MASC) && !mEquip.isInoperable()) {
                 return true;
@@ -830,7 +830,7 @@ public class BattleArmor extends Infantry {
      * Mounts the specified equipment in the specified location.
      */
     @Override
-    public void addEquipment(Mounted mounted, int loc, boolean rearMounted)
+    public void addEquipment(Mounted<?> mounted, int loc, boolean rearMounted)
             throws LocationFullException {
         // Implement parent's behavior.
         super.addEquipment(mounted, loc, rearMounted);
@@ -876,7 +876,7 @@ public class BattleArmor extends Infantry {
 
         // If we're equipped with a Magnetic Mine
         // launcher, turn it to single shot mode.
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             EquipmentType equip = m.getType();
             if (BattleArmor.MINE_LAUNCHER.equals(equip.getInternalName())) {
                 m.setMode("Single");
@@ -928,7 +928,7 @@ public class BattleArmor extends Infantry {
 
             // if we have ammo left for a body mounted missile launcher,
             // we are burdened
-            for (Mounted mounted : getAmmo()) {
+            for (Mounted<?> mounted : getAmmo()) {
                 if (mounted.getUsableShotsLeft() == 0) {
                     // no shots left, we don't count
                     continue;
@@ -937,7 +937,7 @@ public class BattleArmor extends Infantry {
                 // (so we basically only check the currently loaded
                 // ammo, but if the weapon has no currently loaded ammo, we're
                 // fine
-                Mounted weapon = mounted.getLinkedBy();
+                Mounted<?> weapon = mounted.getLinkedBy();
                 if ((weapon != null) && weapon.isBodyMounted()
                         && weapon.getType().hasFlag(WeaponType.F_MISSILE)) {
                     return true;
@@ -963,7 +963,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public boolean hasDWP() {
-        for (Mounted mounted : getWeaponList()) {
+        for (Mounted<?> mounted : getWeaponList()) {
             if (mounted.isDWPMounted()) {
                 if (mounted.isMissing()) {
                     continue;
@@ -1291,7 +1291,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public boolean isFireResistant() {
-        for (Mounted equip : getMisc()) {
+        for (Mounted<?> equip : getMisc()) {
             if (equip.getType().hasFlag(MiscType.F_FIRE_RESISTANT)) {
                 return true;
             }
@@ -1305,7 +1305,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public boolean isReflective() {
-        for (Mounted equip : getMisc()) {
+        for (Mounted<?> equip : getMisc()) {
             if (equip.getType().hasFlag(MiscType.F_REFLECTIVE)) {
                 return true;
             }
@@ -1318,7 +1318,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public boolean isReactive() {
-        for (Mounted equip : getMisc()) {
+        for (Mounted<?> equip : getMisc()) {
             if (equip.getType().hasFlag(MiscType.F_REACTIVE)) {
                 return true;
             }
@@ -1332,7 +1332,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public boolean hasImprovedSensors() {
-        for (Mounted equip : getMisc()) {
+        for (Mounted<?> equip : getMisc()) {
             if (equip.getType().hasFlag(MiscType.F_BAP)) {
                 if (equip.getType().getInternalName().equals(Sensor.ISIMPROVED)
                         || equip.getType().getInternalName()
@@ -1350,7 +1350,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public boolean hasActiveProbe() {
-        for (Mounted equip : getMisc()) {
+        for (Mounted<?> equip : getMisc()) {
             if (equip.getType().hasFlag(MiscType.F_BAP)
                     && !(equip.getType().getInternalName()
                             .equals(Sensor.ISIMPROVED) || equip.getType()
@@ -1519,7 +1519,7 @@ public class BattleArmor extends Infantry {
 
     public int calculateSwarmDamage() {
         int damage = 0;
-        for (Mounted m : getWeaponList()) {
+        for (Mounted<?> m : getWeaponList()) {
             WeaponType wtype;
             if (m.getType() instanceof WeaponType) {
                 wtype = (WeaponType) m.getType();
@@ -1828,7 +1828,7 @@ public class BattleArmor extends Infantry {
     public int getNumAllowedAntiPersonnelWeapons(int loc, int trooper) {
         if ((loc == MOUNT_LOC_LARM) || (loc == MOUNT_LOC_RARM)) {
             boolean hasAntiMech = false;
-            for (Mounted m : getWeaponList()) {
+            for (Mounted<?> m : getWeaponList()) {
                 if (!m.getType().hasFlag(WeaponType.F_INFANTRY)
                         && (m.getBaMountLoc() == loc)
                         && ((m.getLocation() == LOC_SQUAD) || (m.getLocation() == trooper))) {
@@ -1877,7 +1877,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public String getLeftManipulatorName() {
-        Mounted m = getLeftManipulator();
+        Mounted<?> m = getLeftManipulator();
         if (m == null) {
             return MANIPULATOR_TYPE_STRINGS[MANIPULATOR_NONE];
         } else {
@@ -1892,7 +1892,7 @@ public class BattleArmor extends Infantry {
      * @return
      */
     public String getRightManipulatorName() {
-        Mounted m = getRightManipulator();
+        Mounted<?> m = getRightManipulator();
         if (m == null) {
             return MANIPULATOR_TYPE_STRINGS[MANIPULATOR_NONE];
         } else {
@@ -1906,8 +1906,8 @@ public class BattleArmor extends Infantry {
      *
      * @return
      */
-    public Mounted getLeftManipulator() {
-        for (Mounted m : getMisc()) {
+    public Mounted<?> getLeftManipulator() {
+        for (Mounted<?> m : getMisc()) {
             if (m.getType().hasFlag(MiscType.F_BA_MANIPULATOR)
                     && (m.getBaMountLoc() == MOUNT_LOC_LARM)) {
                 return m;
@@ -1922,8 +1922,8 @@ public class BattleArmor extends Infantry {
      *
      * @return
      */
-    public Mounted getRightManipulator() {
-        for (Mounted m : getMisc()) {
+    public Mounted<?> getRightManipulator() {
+        for (Mounted<?> m : getMisc()) {
             if (m.getType().hasFlag(MiscType.F_BA_MANIPULATOR)
                     && (m.getBaMountLoc() == MOUNT_LOC_RARM)) {
                 return m;
@@ -1947,7 +1947,7 @@ public class BattleArmor extends Infantry {
             return toReturn;
         }
         boolean first = true;
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if (m.isMissingForTrooper(loc)) {
                 if (!first) {
                     toReturn += ", ";
@@ -1972,7 +1972,7 @@ public class BattleArmor extends Infantry {
     }
 
     @Override
-    protected boolean isFieldWeapon(Mounted equipment) {
+    protected boolean isFieldWeapon(Mounted<?> equipment) {
         return false;
     }
 

@@ -37,8 +37,8 @@ public class CriticalSlot implements Serializable {
      * index into a collection to determine what the system actually is.
      */
     private int index = -1;
-    private Mounted mount;
-    private Mounted mount2;
+    private Mounted<?> mount;
+    private Mounted<?> mount2;
 
     private boolean hit = false; // hit
     private boolean missing = false; // location destroyed
@@ -64,7 +64,7 @@ public class CriticalSlot implements Serializable {
         }
     }
 
-    public CriticalSlot(Mounted mount) {
+    public CriticalSlot(Mounted<?> mount) {
         this(TYPE_EQUIPMENT, -1, mount.getType().isHittable(), mount.isArmored());
         this.mount = mount;
     }
@@ -185,28 +185,28 @@ public class CriticalSlot implements Serializable {
     /**
      * @param mount the mount to set
      */
-    public void setMount(Mounted mount) {
+    public void setMount(Mounted<?> mount) {
         this.mount = mount;
     }
 
     /**
      * @return the mount
      */
-    public Mounted getMount() {
+    public Mounted<?> getMount() {
         return mount;
     }
 
     /**
      * @param mount the mount to set
      */
-    public void setMount2(Mounted mount) {
+    public void setMount2(Mounted<?> mount) {
         mount2 = mount;
     }
 
     /**
      * @return the mount
      */
-    public Mounted getMount2() {
+    public Mounted<?> getMount2() {
         return mount2;
     }
 

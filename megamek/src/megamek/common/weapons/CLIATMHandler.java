@@ -584,7 +584,7 @@ public class CLIATMHandler extends ATMHandler {
                     WeaponAttackAction newWaa = new WeaponAttackAction(
                             ae.getId(), entity.getId(), waa.getWeaponId());
                     newWaa.setNemesisConfused(true);
-                    Mounted m = ae.getEquipment(waa.getWeaponId());
+                    Mounted<?> m = ae.getEquipment(waa.getWeaponId());
                     Weapon w = (Weapon) m.getType();
                     AttackHandler ah = w.fire(newWaa, game, gameManager);
                     // increase ammo by one, because we just incorrectly used

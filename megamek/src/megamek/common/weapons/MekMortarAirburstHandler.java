@@ -39,7 +39,7 @@ public class MekMortarAirburstHandler extends AmmoWeaponHandler {
 
         Coords targetPos = target.getPosition();
 
-        Mounted ammoUsed = ae.getEquipment(waa.getAmmoId());
+        Mounted<?> ammoUsed = ae.getEquipment(waa.getAmmoId());
         final AmmoType ammoType = (ammoUsed == null) ? null : (AmmoType) ammoUsed.getType();
         if ((ammoType == null) || (!ammoType.getMunitionType().contains(AmmoType.Munitions.M_AIRBURST))) {
             LogManager.getLogger().error("Not using airburst ammo!");

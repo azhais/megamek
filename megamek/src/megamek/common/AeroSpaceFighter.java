@@ -84,7 +84,7 @@ public class AeroSpaceFighter extends Aero {
                             (slot1.getType() == CriticalSlot.TYPE_SYSTEM)) {
                         continue;
                     }
-                    Mounted mounted = slot1.getMount();
+                    Mounted<?> mounted = slot1.getMount();
                     if (mounted.equals(weapon)) {
                         hitAllCriticals(loc, i);
                         break;

@@ -135,7 +135,7 @@ public class LRMHandler extends MissileWeaponHandler {
         if ((ae instanceof Mech) || (ae instanceof Tank)) {
             bMekTankStealthActive = ae.isStealthActive();
         }
-        Mounted mLinker = weapon.getLinkedBy();
+        Mounted<?> mLinker = weapon.getLinkedBy();
         AmmoType atype = (AmmoType) ammo.getType();
         // is any hex in the flight path of the missile ECM affected?
         boolean bECMAffected = false;

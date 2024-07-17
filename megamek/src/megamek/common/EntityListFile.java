@@ -117,7 +117,7 @@ public class EntityListFile {
 
             if (mount.getEntity().isSupportVehicle()
                     && (mount.getType() instanceof InfantryWeapon)) {
-                for (Mounted ammo = mount.getLinked(); ammo != null; ammo = ammo.getLinked()) {
+                for (Mounted<?> ammo = mount.getLinked(); ammo != null; ammo = ammo.getLinked()) {
                     if (((AmmoType) ammo.getType()).getMunitionType().contains(AmmoType.Munitions.M_INFERNO)) {
                         output.append("\" " + MULParser.ATTR_INFERNO + "=\"").append(ammo.getBaseShotsLeft())
                                 .append(":").append(ammo.getOriginalShots());
@@ -404,7 +404,7 @@ public class EntityListFile {
             // Protomechs only have system slots,
             // so we have to handle the ammo specially.
             if (entity instanceof Protomech) {
-                for (Mounted mount : entity.getAmmo()) {
+                for (Mounted<?> mount : entity.getAmmo()) {
                     // Is this ammo in the current location?
                     if (mount.getLocation() == loc) {
                         thisLoc.append(EntityListFile.formatSlot(MULParser.VALUE_NA, mount,
@@ -418,7 +418,7 @@ public class EntityListFile {
             // GunEmplacements don't have system slots,
             // so we have to handle the ammo specially.
             if (entity instanceof GunEmplacement) {
-                for (Mounted mount : entity.getEquipment()) {
+                for (Mounted<?> mount : entity.getEquipment()) {
                     // Is this ammo in the current location?
                     if (mount.getLocation() == loc) {
                         thisLoc.append(EntityListFile.formatSlot(MULParser.VALUE_NA, mount,
@@ -884,7 +884,7 @@ public class EntityListFile {
                             output.write("\"/>\n");
                         }
                     }
-                    for (Mounted m : b.getBombs()) {
+                    for (Mounted<?> m : b.getBombs()) {
                         if (!(m.getType() instanceof BombType)) {
                             continue;
                         }
@@ -955,9 +955,9 @@ public class EntityListFile {
 
             if (entity instanceof BattleArmor) {
                 BattleArmor ba = (BattleArmor) entity;
-                for (Mounted m : entity.getEquipment()) {
+                for (Mounted<?> m : entity.getEquipment()) {
                     if (m.getType().hasFlag(MiscType.F_BA_MEA)) {
-                        Mounted manipulator = null;
+                        Mounted<?> manipulator = null;
                         if (m.getBaMountLoc() == BattleArmor.MOUNT_LOC_LARM) {
                             manipulator = ba.getLeftManipulator();
                         } else if (m.getBaMountLoc() == BattleArmor.MOUNT_LOC_RARM) {

@@ -22,7 +22,6 @@ import megamek.common.*;
 import megamek.common.annotations.Nullable;
 import megamek.common.verifier.EntityVerifier;
 import megamek.common.verifier.TestBattleArmor;
-import megamek.common.verifier.TestEntity;
 
 import java.io.File;
 

@@ -554,8 +554,8 @@ public class PrincessTest {
 
         // Set up unit
         Mech mech1 = new BipedMech();
-        Mounted bin1 = mech1.addEquipment(mockAC5AmmoType, Mech.LOC_LT);
-        Mounted wpn1 = mech1.addEquipment(mockAC5, Mech.LOC_RT);
+        Mounted<?> bin1 = mech1.addEquipment(mockAC5AmmoType, Mech.LOC_LT);
+        Mounted<?> wpn1 = mech1.addEquipment(mockAC5, Mech.LOC_RT);
 
         // Check default toHitThresholds
         // Default toHitThreshold for 7+ rounds for this level should allow firing on 12s
@@ -589,8 +589,8 @@ public class PrincessTest {
 
         // Set up unit
         Mech mech1 = new BipedMech();
-        Mounted bin1 = mech1.addEquipment(mockAC5AmmoType, Mech.LOC_LT);
-        Mounted wpn1 = mech1.addEquipment(mockAC5, Mech.LOC_RT);
+        Mounted<?> bin1 = mech1.addEquipment(mockAC5AmmoType, Mech.LOC_LT);
+        Mounted<?> wpn1 = mech1.addEquipment(mockAC5, Mech.LOC_RT);
 
         // Check default toHitThresholds
         // Default toHitThreshold for 7+ rounds for this level should allow firing on 12s
@@ -623,8 +623,8 @@ public class PrincessTest {
 
         // Set up unit
         Mech mech1 = new BipedMech();
-        Mounted bin1 = mech1.addEquipment(mockAC5AmmoType, Mech.LOC_LT);
-        Mounted wpn1 = mech1.addEquipment(mockAC5, Mech.LOC_RT);
+        Mounted<?> bin1 = mech1.addEquipment(mockAC5AmmoType, Mech.LOC_LT);
+        Mounted<?> wpn1 = mech1.addEquipment(mockAC5, Mech.LOC_RT);
 
         // Check default toHitThresholds
         // Default toHitThreshold for 7+ rounds for this level should allow firing on 12s
@@ -655,7 +655,7 @@ public class PrincessTest {
 
         // Set up unit
         Mech mech1 = new BipedMech();
-        Mounted wpn1 = mech1.addEquipment(mockRL20, Mech.LOC_LT);
+        Mounted<?> wpn1 = mech1.addEquipment(mockRL20, Mech.LOC_LT);
 
         // Check default toHitThresholds
         // For max aggro, shoot OS weapons at TN 10 or better

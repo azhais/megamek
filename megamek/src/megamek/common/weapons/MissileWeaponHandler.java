@@ -22,7 +22,6 @@ import megamek.common.equipment.WeaponMounted;
 import megamek.common.options.OptionsConstants;
 import megamek.server.GameManager;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
@@ -82,7 +81,7 @@ public class MissileWeaponHandler extends AmmoWeaponHandler {
         if ((ae instanceof Mech) || (ae instanceof Tank)) {
             bMekTankStealthActive = ae.isStealthActive();
         }
-        Mounted mLinker = weapon.getLinkedBy();
+        Mounted<?> mLinker = weapon.getLinkedBy();
         AmmoType atype = (AmmoType) ammo.getType();
 
         // is any hex in the flight path of the missile ECM affected?
@@ -296,7 +295,7 @@ public class MissileWeaponHandler extends AmmoWeaponHandler {
         } else if (range == WeaponType.RANGE_EXT) {
             av = wtype.getRoundExtAV();
         }
-        Mounted mLinker = weapon.getLinkedBy();
+        Mounted<?> mLinker = weapon.getLinkedBy();
         AmmoType atype = (AmmoType) ammo.getType();
         int bonus = 0;
         if (((mLinker != null) && (mLinker.getType() instanceof MiscType)
@@ -535,7 +534,7 @@ public class MissileWeaponHandler extends AmmoWeaponHandler {
                     }
 
                     // decrement the ammo
-                    Mounted mAmmo = counter.getLinked();
+                    Mounted<?> mAmmo = counter.getLinked();
                     if (mAmmo != null) {
                         mAmmo.setShotsLeft(Math.max(0, mAmmo.getBaseShotsLeft() - 1));
                     }
@@ -656,7 +655,7 @@ public class MissileWeaponHandler extends AmmoWeaponHandler {
                 WeaponAttackAction newWaa = new WeaponAttackAction(ae.getId(),
                         entity.getId(), waa.getWeaponId());
                 newWaa.setNemesisConfused(true);
-                Mounted m = ae.getEquipment(waa.getWeaponId());
+                Mounted<?> m = ae.getEquipment(waa.getWeaponId());
                 Weapon w = (Weapon) m.getType();
                 AttackHandler ah = w.fire(newWaa, game, gameManager);
                 // increase ammo by one, because we just incorrectly used one up
@@ -1001,7 +1000,7 @@ public class MissileWeaponHandler extends AmmoWeaponHandler {
         // Are we iNarc Nemesis Confusable?
         boolean isNemesisConfusable = false;
         AmmoType atype = (AmmoType) ammo.getType();
-        Mounted mLinker = weapon.getLinkedBy();
+        Mounted<?> mLinker = weapon.getLinkedBy();
         if ((wtype.getAmmoType() == AmmoType.T_ATM)
                 || ((mLinker != null)
                         && (mLinker.getType() instanceof MiscType)

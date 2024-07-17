@@ -15,7 +15,6 @@
 package megamek.common;
 
 import megamek.client.bot.princess.Princess;
-import megamek.common.MovePath.MoveStepType;
 import megamek.common.annotations.Nullable;
 import megamek.common.options.OptionsConstants;
 import megamek.common.pathfinder.AbstractPathFinder;

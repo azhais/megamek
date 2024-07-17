@@ -15,7 +15,6 @@
 package megamek.common.weapons;
 
 import megamek.common.*;
-import megamek.common.actions.ArtilleryAttackAction;
 import megamek.common.actions.WeaponAttackAction;
 import megamek.common.enums.GamePhase;
 import megamek.server.GameManager;
@@ -55,7 +54,7 @@ public class ArtilleryCannonWeaponHandler extends AmmoWeaponHandler {
         boolean targetIsEntity = target.getTargetType() == Targetable.TYPE_ENTITY;
         boolean isFlak = targetIsEntity && Compute.isFlakAttack(ae, (Entity) target);
         boolean asfFlak = isFlak && target.isAirborne();
-        Mounted ammoUsed = ae.getEquipment(waa.getAmmoId());
+        Mounted<?> ammoUsed = ae.getEquipment(waa.getAmmoId());
         final AmmoType ammoType = (ammoUsed == null) ? null : (AmmoType) ammoUsed.getType();
 
         // Report weapon attack and its to-hit value.

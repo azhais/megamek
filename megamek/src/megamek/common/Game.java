@@ -1331,11 +1331,7 @@ public final class Game extends AbstractGame implements Serializable, PlanetaryC
     }
 
     private void removeArtyAutoHitHexes() {
-        Enumeration<Player> iter = getPlayers();
-        while (iter.hasMoreElements()) {
-            Player player = iter.nextElement();
-            player.removeArtyAutoHitHexes();
-        }
+        getPlayersList().forEach(Player::removeArtyAutoHitHexes);
     }
 
     /**

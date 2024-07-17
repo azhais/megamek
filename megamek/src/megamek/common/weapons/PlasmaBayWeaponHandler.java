@@ -24,7 +24,6 @@ import megamek.common.EquipmentType;
 import megamek.common.HitData;
 import megamek.common.Game;
 import megamek.common.Mech;
-import megamek.common.Mounted;
 import megamek.common.Report;
 import megamek.common.TargetRoll;
 import megamek.common.ToHitData;

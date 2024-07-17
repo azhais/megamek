@@ -28,7 +28,7 @@ import org.apache.logging.log4j.LogManager;
 public class AmmoWeaponHandler extends WeaponHandler {
 
     private static final long serialVersionUID = -4934490646657484486L;
-    Mounted ammo;
+    Mounted<?> ammo;
 
     protected AmmoWeaponHandler() {
         // deserialization only
@@ -152,7 +152,7 @@ public class AmmoWeaponHandler extends WeaponHandler {
             if ((slot1 == null) || (slot1.getType() == CriticalSlot.TYPE_SYSTEM)) {
                 continue;
             }
-            Mounted mounted = slot1.getMount();
+            Mounted<?> mounted = slot1.getMount();
             if (mounted.equals(weapon)) {
                 ae.hitAllCriticals(wloc, i);
                 break;

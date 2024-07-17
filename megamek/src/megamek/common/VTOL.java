@@ -369,7 +369,7 @@ public class VTOL extends Tank implements IBomber {
                             return CRIT_CREW_KILLED;
                         }
                     case 7:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isJammed() && !m.isHit()
                                     && !m.jammedThisPhase()) {
@@ -378,7 +378,7 @@ public class VTOL extends Tank implements IBomber {
                         }
                     case 8:
                         if (!isStabiliserHit(loc)) {
-                            for (Mounted m : getWeaponList()) {
+                            for (Mounted<?> m : getWeaponList()) {
                                 if (m.getLocation() == loc) {
                                     return CRIT_STABILIZER;
                                 }
@@ -395,7 +395,7 @@ public class VTOL extends Tank implements IBomber {
                             return CRIT_CREW_KILLED;
                         }
                     case 11:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isHit()) {
                                 return CRIT_WEAPON_DESTROYED;
@@ -413,7 +413,7 @@ public class VTOL extends Tank implements IBomber {
                             return CRIT_CARGO;
                         }
                     case 7:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isJammed() && !m.isHit()
                                     && !m.jammedThisPhase()) {
@@ -422,14 +422,14 @@ public class VTOL extends Tank implements IBomber {
                         }
                     case 8:
                         if (!isStabiliserHit(loc)) {
-                            for (Mounted m : getWeaponList()) {
+                            for (Mounted<?> m : getWeaponList()) {
                                 if (m.getLocation() == loc) {
                                     return CRIT_STABILIZER;
                                 }
                             }
                         }
                     case 9:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isHit()) {
                                 return CRIT_WEAPON_DESTROYED;
@@ -478,7 +478,7 @@ public class VTOL extends Tank implements IBomber {
                     case 7:
                         return CRIT_TURRET_JAM;
                     case 8:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isJammed() && !m.isHit()
                                     && !m.jammedThisPhase()) {
@@ -488,14 +488,14 @@ public class VTOL extends Tank implements IBomber {
                     case 9:
                         return CRIT_TURRET_LOCK;
                     case 10:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isHit()) {
                                 return CRIT_WEAPON_DESTROYED;
                             }
                         }
                     case 11:
-                        for (Mounted m : getAmmo()) {
+                        for (Mounted<?> m : getAmmo()) {
                             if (!m.isDestroyed() && !m.isHit() && (m.getLocation() != Entity.LOC_NONE)) {
                                 return CRIT_AMMO;
                             }
@@ -506,7 +506,7 @@ public class VTOL extends Tank implements IBomber {
             } else {
                 switch (roll) {
                     case 6:
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isJammed() && !m.isHit()
                                     && !m.jammedThisPhase()) {
@@ -519,7 +519,7 @@ public class VTOL extends Tank implements IBomber {
                         }
                     case 8:
                         if (!isStabiliserHit(loc)) {
-                            for (Mounted m : getWeaponList()) {
+                            for (Mounted<?> m : getWeaponList()) {
                                 if (m.getLocation() == loc) {
                                     return CRIT_STABILIZER;
                                 }
@@ -530,7 +530,7 @@ public class VTOL extends Tank implements IBomber {
                         // roll 1d6, 1-3, defending player
                         // chooses which weapon gets destroyed
                         // 4-6: attacker chooses which weapon gets destroyed
-                        for (Mounted m : getWeaponList()) {
+                        for (Mounted<?> m : getWeaponList()) {
                             if ((m.getLocation() == loc) && !m.isDestroyed()
                                     && !m.isHit()) {
                                 return CRIT_WEAPON_DESTROYED;
@@ -541,7 +541,7 @@ public class VTOL extends Tank implements IBomber {
                             return (hasEngine() ? CRIT_ENGINE : CRIT_NONE);
                         }
                     case 11:
-                        for (Mounted m : getAmmo()) {
+                        for (Mounted<?> m : getAmmo()) {
                             if (!m.isDestroyed() && !m.isHit() && (m.getLocation() != Entity.LOC_NONE)) {
                                 return CRIT_AMMO;
                             }
@@ -643,7 +643,7 @@ public class VTOL extends Tank implements IBomber {
 
     @Override
     public MPBoosters getMPBoosters(boolean onlyArmed) {
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if (!m.isInoperable() && (m.getType() instanceof MiscType)
                     && m.getType().hasFlag(MiscType.F_MASC)) {
                 return MPBoosters.VTOL_JET_BOOSTER;

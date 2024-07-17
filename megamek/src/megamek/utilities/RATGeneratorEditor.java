@@ -998,9 +998,6 @@ public class RATGeneratorEditor extends JFrame {
             fireTableDataChanged();
         }
 
-        public int getMode() {
-            return mode;
-        }
     }
 
     private static class RowData {

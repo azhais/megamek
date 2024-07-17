@@ -106,7 +106,7 @@ public class Warship extends Jumpship {
     // broadside weapon arcs
     @Override
     public int getWeaponArc(int wn) {
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
         
         int arc;
         switch (mounted.getLocation()) {

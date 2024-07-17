@@ -15,8 +15,6 @@
  */
 package megamek.common;
 
-import megamek.common.weapons.Weapon;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +31,7 @@ public class ArtilleryTracker implements Serializable {
      * Maps WeaponID's of artillery weapons to a Vector of ArtilleryModifiers, for all the different
      * coords it's got mods to.
      */
-    private Map<Mounted, Vector<ArtilleryModifier>> weapons;
+    private Map<Mounted<?>, Vector<ArtilleryModifier>> weapons;
 
     private boolean spotterIsForwardObs;
 
@@ -49,7 +47,7 @@ public class ArtilleryTracker implements Serializable {
      *
      * @param mounted new weapon
      */
-    public void addWeapon(Mounted mounted) {
+    public void addWeapon(Mounted<?> mounted) {
         weapons.put(mounted, new Vector<>());
     }
 
@@ -58,7 +56,7 @@ public class ArtilleryTracker implements Serializable {
      *
      * @param mounted existing weapon
      */
-    public void removeWeapon(Mounted mounted) {
+    public void removeWeapon(Mounted<?> mounted) {
         weapons.remove(mounted);
     }
 
@@ -69,12 +67,12 @@ public class ArtilleryTracker implements Serializable {
         return weapons.size();
     }
 
-    public boolean weaponInList(Mounted mounted) {
+    public boolean weaponInList(Mounted<?> mounted) {
         return (weapons.containsKey(mounted));
     }
 
     public boolean ammoTypeInList(int ammoType) {
-        for (Mounted mounted: weapons.keySet()) {
+        for (Mounted<?> mounted: weapons.keySet()) {
             if (((WeaponType) mounted.getType()).getAmmoType() == ammoType ) {
                 return true;
             }
@@ -90,7 +88,7 @@ public class ArtilleryTracker implements Serializable {
      * @param coords
      */
     public void setModifier(int modifier, Coords coords) {
-        for (Mounted weapon : weapons.keySet()) {
+        for (Mounted<?> weapon : weapons.keySet()) {
             Vector<ArtilleryModifier> weaponMods = getWeaponModifiers(weapon);
             ArtilleryModifier am = getModifierByCoords(weaponMods, coords);
             if (am != null) {
@@ -107,7 +105,7 @@ public class ArtilleryTracker implements Serializable {
      * @param coords
      * @return the modifier for the given weapon
      */
-    public int getModifier(Mounted weapon, Coords coords) {
+    public int getModifier(Mounted<?> weapon, Coords coords) {
         Vector<ArtilleryModifier> weaponMods = getWeaponModifiers(weapon);
         ArtilleryModifier am = getModifierByCoords(weaponMods, coords);
         return (am == null) ? 0 : am.getModifier();
@@ -117,7 +115,7 @@ public class ArtilleryTracker implements Serializable {
      * @param mounted weapon to get modifiers for
      * @return the <code>Vector</code> of the modifiers for the given weapon
      */
-    public Vector<ArtilleryModifier> getWeaponModifiers(Mounted mounted) {
+    public Vector<ArtilleryModifier> getWeaponModifiers(Mounted<?> mounted) {
         return weapons.computeIfAbsent(mounted, k -> new Vector<>());
     }
 

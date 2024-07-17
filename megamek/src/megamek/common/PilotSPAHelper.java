@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 public final class PilotSPAHelper {
 
     /** @return True when the given Mounted equipment is a valid choice for the Weapons Specialist SPA. */
-    public static boolean isWeaponSpecialistValid(Mounted mounted, @Nullable GameOptions options) {
+    public static boolean isWeaponSpecialistValid(Mounted<?> mounted, @Nullable GameOptions options) {
         return isWeaponSpecialistValid(mounted.getType(), options);
     }
 
@@ -73,7 +73,7 @@ public final class PilotSPAHelper {
      *
      * @return A list of weapons from the given Entity that are valid choices for the Weapon Specialist SPA
      */
-    public static List<Mounted> weaponSpecialistValidWeapons(Entity entity, @Nullable GameOptions options) {
+    public static List<Mounted<?>> weaponSpecialistValidWeapons(Entity entity, @Nullable GameOptions options) {
         return entity.getTotalWeaponList().stream()
                 .filter(mounted -> isWeaponSpecialistValid(mounted, options))
                 .collect(Collectors.toList());
@@ -87,7 +87,7 @@ public final class PilotSPAHelper {
      *
      * @return True when the given EquipmentType is a valid choice for the Sandblaster SPA.
      */
-    public static boolean isSandblasterValid(Mounted mounted, @Nullable GameOptions options) {
+    public static boolean isSandblasterValid(Mounted<?> mounted, @Nullable GameOptions options) {
         return isSandblasterValid(mounted.getType(), options);
     }
 
@@ -129,7 +129,7 @@ public final class PilotSPAHelper {
      *
      * @return A list of weapons from the given Entity that are valid choices for the Sandblaster SPA
      */
-    public static List<Mounted> sandblasterValidWeapons(Entity entity, @Nullable GameOptions options) {
+    public static List<Mounted<?>> sandblasterValidWeapons(Entity entity, @Nullable GameOptions options) {
         return entity.getTotalWeaponList().stream()
                 .filter(mounted -> isSandblasterValid(mounted, options))
                 .collect(Collectors.toList());

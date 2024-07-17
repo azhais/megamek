@@ -1,15 +1,12 @@
 package megamek.common.verifier;
 
 import megamek.common.AeroSpaceFighter;
-import megamek.common.Entity;
 import megamek.common.EquipmentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 
 class TestAeroTest {
 

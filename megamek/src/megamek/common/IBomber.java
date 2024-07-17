@@ -177,7 +177,7 @@ public interface IBomber {
      */
     default int getInternalBombsDamageTotal() {
         int total = 0;
-        for (Mounted bomb: getBombs()) {
+        for (Mounted<?> bomb: getBombs()) {
             if (bomb.isInternalBomb()) {
                 total += bomb.getExplosionDamage();
             }
@@ -191,7 +191,7 @@ public interface IBomber {
      */
     default int getBombPoints(boolean externalOnly) {
         int points = 0;
-        for (Mounted bomb : getBombs()) {
+        for (Mounted<?> bomb : getBombs()) {
             if (bomb.getUsableShotsLeft() > 0) {
                 // Add points if A) not external only, and any kind of bomb, or B) external only, and not internal bomb
                 points += !(externalOnly && bomb.isInternalBomb()) ?
@@ -277,7 +277,7 @@ public interface IBomber {
     private void applyBombEquipment(int type, int loc, boolean internal){
         try {
             EquipmentType et = EquipmentType.get(BombType.getBombInternalName(type));
-            Mounted m = ((Entity) this).addEquipment(et, loc, false);
+            Mounted<?> m = ((Entity) this).addEquipment(et, loc, false);
             m.setInternalBomb(internal);
         } catch (LocationFullException ignored) {
 

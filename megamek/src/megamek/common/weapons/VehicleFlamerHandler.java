@@ -30,7 +30,6 @@ import megamek.common.options.OptionsConstants;
 import megamek.common.weapons.flamers.CLHeavyFlamer;
 import megamek.common.weapons.flamers.ISHeavyFlamer;
 import megamek.server.GameManager;
-import megamek.server.Server;
 
 /**
  * @author Sebastian Brocks

@@ -15,13 +15,7 @@ package megamek.common;
 
 import megamek.common.annotations.Nullable;
 import megamek.common.enums.BasementType;
-import org.apache.logging.log4j.LogManager;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;

@@ -95,7 +95,7 @@ public class SpaceBombAttackHandler extends WeaponHandler {
                     while (!bombRemoved && iterations <= activeFighters.size()) {
                         Aero fighter = (Aero) activeFighters.get(fighterIndex);
                         // find the first mounted bomb of this type and drop it
-                        for (Mounted bomb : fighter.getBombs()) {
+                        for (Mounted<?> bomb : fighter.getBombs()) {
                             if (((BombType) bomb.getType()).getBombType() == type && 
                                     !bomb.isDestroyed()
                                     && bomb.getUsableShotsLeft() > 0) {
@@ -116,7 +116,7 @@ public class SpaceBombAttackHandler extends WeaponHandler {
                 if (payload[type] > 0) {
                     double numSalvos = Math.ceil((payload[type] + 0.0) / activeFighters.size());
                     for (int salvo = 0; salvo < numSalvos; salvo++) {
-                        for (Mounted bomb : ae.getBombs()) {
+                        for (Mounted<?> bomb : ae.getBombs()) {
                             if (((BombType) bomb.getType()).getBombType() == type
                                     && !bomb.isDestroyed()
                                     && bomb.getUsableShotsLeft() > 0) {
@@ -131,7 +131,7 @@ public class SpaceBombAttackHandler extends WeaponHandler {
             for (int type = 0; type < payload.length; type++) {
                 for (int i = 0; i < payload[type]; i++) {
                     // find the first mounted bomb of this type and drop it
-                    for (Mounted bomb : ae.getBombs()) {
+                    for (Mounted<?> bomb : ae.getBombs()) {
                         if (((BombType) bomb.getType()).getBombType() == type && 
                                 !bomb.isDestroyed()
                                 && bomb.getUsableShotsLeft() > 0) {

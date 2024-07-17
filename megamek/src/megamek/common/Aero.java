@@ -1090,7 +1090,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
     // need to figure out new arcs
     @Override
     public int getWeaponArc(int wn) {
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
         if (mounted.getType().hasFlag(WeaponType.F_SPACE_BOMB) || mounted.getType().hasFlag(WeaponType.F_DIVE_BOMB)
                 || mounted.getType().hasFlag(WeaponType.F_ALT_BOMB)) {
             return Compute.ARC_360;
@@ -1671,7 +1671,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
         // weapon arcs. We will use LOC_NONE to record the existence of non-weapon explosive equipment.
         Set<Integer> caseLocations = new HashSet<>();
         int explicit = 0;
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if ((m.getType() instanceof MiscType) && (m.getType().hasFlag(MiscType.F_CASE))) {
                 explicit++;
             } else if (m.getType().isExplosive(m)) {
@@ -1747,7 +1747,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
     }
 
     @Override
-    public void addEquipment(Mounted mounted, int loc, boolean rearMounted) throws LocationFullException {
+    public void addEquipment(Mounted<?> mounted, int loc, boolean rearMounted) throws LocationFullException {
         if (getEquipmentNum(mounted) == -1) {
             super.addEquipment(mounted, loc, rearMounted);
         }
@@ -1798,7 +1798,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
                 continue;
             }
             explosiveFound = false;
-            for (Mounted m : getEquipment()) {
+            for (Mounted<?> m : getEquipment()) {
                 if (m.getType().isExplosive(m, true) && (m.getLocation() == i)) {
                     explosiveFound = true;
                 }
@@ -1909,7 +1909,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
     @Override
     public boolean isStealthActive() {
         // Try to find a Mek Stealth system.
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_STEALTH)) {
 
@@ -1936,7 +1936,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
     @Override
     public boolean isStealthOn() {
         // Try to find a Mek Stealth system.
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_STEALTH)) {
                 if (mEquip.curMode().equals("On")) {
@@ -2323,7 +2323,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
     @Override
     public Map<String, Integer> groupWeaponsByLocation() {
         Map<String, Integer> groups = new HashMap<>();
-        for (Mounted mounted : getTotalWeaponList()) {
+        for (Mounted<?> mounted : getTotalWeaponList()) {
             int loc = mounted.getLocation();
             if (isFighter() && ((loc == Aero.LOC_RWING) || (loc == Aero.LOC_LWING))) {
                 loc = Aero.LOC_WINGS;
@@ -2645,7 +2645,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -2678,7 +2678,7 @@ public abstract class Aero extends Entity implements IAero, IBomber {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }

@@ -1815,8 +1815,8 @@ public class WeaponHandler implements AttackHandler, Serializable {
 
     protected void useAmmo() {
         if (wtype.hasFlag(WeaponType.F_DOUBLE_ONESHOT)) {
-            ArrayList<Mounted> chain = new ArrayList<>();
-            for (Mounted current = weapon.getLinked(); current != null; current = current.getLinked()) {
+            ArrayList<Mounted<?>> chain = new ArrayList<>();
+            for (Mounted<?> current = weapon.getLinked(); current != null; current = current.getLinked()) {
                 chain.add(current);
             }
 

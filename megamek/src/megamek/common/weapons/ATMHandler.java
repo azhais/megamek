@@ -199,7 +199,7 @@ public class ATMHandler extends MissileWeaponHandler {
         if ((ae instanceof Mech) || (ae instanceof Tank)) {
             bMekTankStealthActive = ae.isStealthActive();
         }
-        Mounted mLinker = weapon.getLinkedBy();
+        Mounted<?> mLinker = weapon.getLinkedBy();
         AmmoType atype = (AmmoType) ammo.getType();
 
         int nMissilesModifier = getClusterModifiers(atype.getMunitionType().contains(AmmoType.Munitions.M_HIGH_EXPLOSIVE));

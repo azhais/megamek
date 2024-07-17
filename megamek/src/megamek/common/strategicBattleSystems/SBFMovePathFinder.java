@@ -21,8 +21,6 @@ package megamek.common.strategicBattleSystems;
 import megamek.common.*;
 import megamek.common.annotations.Nullable;
 import megamek.common.pathfinder.AbstractPathFinder;
-import megamek.common.pathfinder.MovePathFinder;
-import megamek.common.pathfinder.ShortestPathFinder;
 
 import java.io.Serializable;
 import java.util.*;

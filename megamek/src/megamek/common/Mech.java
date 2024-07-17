@@ -561,7 +561,7 @@ public abstract class Mech extends Entity {
         // Walk through the Mech's miscellaneous equipment before
         // we apply our parent class' newRound() functionality
         // because Mek Stealth is set by the Entity#newRound() method.
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             MiscType mtype = (MiscType) m.getType();
 
             // Stealth can not be turned on if it's ECM is destroyed.
@@ -751,7 +751,7 @@ public abstract class Mech extends Entity {
      */
     public boolean hasJumpBoosters() {
         boolean jumpBoosters = false;
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_JUMP_BOOSTER)) {
 
@@ -771,7 +771,7 @@ public abstract class Mech extends Entity {
      * Does this mech have an extended retractable blade in working condition?
      */
     public boolean hasExtendedRetractableBlade() {
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if (!m.isInoperable() && (m.getType() instanceof MiscType)
                     && m.getType().hasFlag(MiscType.F_CLUB)
                     && m.getType().hasSubType(MiscType.S_RETRACTABLE_BLADE)
@@ -798,7 +798,7 @@ public abstract class Mech extends Entity {
      * @return Whether the mech has TSM
      */
     public boolean hasTSM(boolean includePrototype) {
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             if (m.getType().hasFlag(MiscType.F_TSM)
                     && (includePrototype || !m.getType().hasFlag(MiscType.F_PROTOTYPE))) {
                 return true;
@@ -809,7 +809,7 @@ public abstract class Mech extends Entity {
 
     @Override
     public boolean antiTSMVulnerable() {
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             if ((m.getType().hasFlag(MiscType.F_TSM) && m.getType().hasFlag(MiscType.F_PROTOTYPE))
                     || (m.getType().hasFlag(MiscType.F_INDUSTRIAL_TSM) && (getYear() <= 3050))) {
                 return true;
@@ -830,7 +830,7 @@ public abstract class Mech extends Entity {
      * @return Whether the mech has some form of TSM and it's active
      */
     public boolean hasActiveTSM(boolean includeIndustrial) {
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             if (includeIndustrial && m.getType().hasFlag(MiscType.F_INDUSTRIAL_TSM)) {
                 return true;
             } else if (m.getType().hasFlag(MiscType.F_TSM)) {
@@ -846,7 +846,7 @@ public abstract class Mech extends Entity {
      * @return
      */
     public boolean hasIndustrialTSM() {
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if ((m.getType() instanceof MiscType)
                     && m.getType().hasFlag(MiscType.F_INDUSTRIAL_TSM)) {
                 return true;
@@ -861,7 +861,7 @@ public abstract class Mech extends Entity {
      * @return
      */
     public boolean hasNullSig() {
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_NULLSIG)) {
                 // The Mek has Null-Sig
@@ -877,7 +877,7 @@ public abstract class Mech extends Entity {
      * @return
      */
     public boolean hasVoidSig() {
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_VOIDSIG)) {
                 // The Mek has Void-Sig
@@ -893,7 +893,7 @@ public abstract class Mech extends Entity {
      * @return
      */
     public boolean hasTracks() {
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_TRACKS)) {
                 // The Mek has tracks
@@ -909,7 +909,7 @@ public abstract class Mech extends Entity {
      * @return
      */
     public boolean hasChameleonShield() {
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_CHAMELEON_SHIELD)) {
                 // The Mek has Chameleon Light Polarization Field
@@ -1072,7 +1072,7 @@ public abstract class Mech extends Entity {
         int mp = 0;
         boolean isJumpBooster = false;
 
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if (mounted.getType().hasFlag(MiscType.F_JUMP_JET)
                     && !mounted.isDestroyed() && !mounted.isBreached()) {
                 mp++;
@@ -1096,7 +1096,7 @@ public abstract class Mech extends Entity {
 
         // apply Partial Wing bonus if we have the ability to jump
         if (mp > 0) {
-            for (Mounted mount : getMisc()) {
+            for (Mounted<?> mount : getMisc()) {
                 if (mount.getType().hasFlag(MiscType.F_PARTIAL_WING)) {
                     mp += getPartialWingJumpBonus(mount, mpCalculationSetting);
                     break;
@@ -1178,14 +1178,14 @@ public abstract class Mech extends Entity {
      *            The mounted location of the Wing
      * @return The Jump MP bonus conferred by the wing
      */
-    public int getPartialWingJumpBonus(Mounted mount, MPCalculationSetting mpCalculationSetting) {
+    public int getPartialWingJumpBonus(Mounted<?> mount, MPCalculationSetting mpCalculationSetting) {
         int bonus = getPartialWingJumpAtmoBonus(mpCalculationSetting);
         bonus -= getBadCriticals(CriticalSlot.TYPE_EQUIPMENT, getEquipmentNum(mount), Mech.LOC_RT);
         bonus -= getBadCriticals(CriticalSlot.TYPE_EQUIPMENT, getEquipmentNum(mount), Mech.LOC_LT);
         return Math.max(bonus, 0);
     }
 
-    public int getPartialWingJumpBonus(Mounted mount) {
+    public int getPartialWingJumpBonus(Mounted<?> mount) {
         return getPartialWingJumpBonus(mount, MPCalculationSetting.STANDARD);
     }
 
@@ -1227,7 +1227,7 @@ public abstract class Mech extends Entity {
     @Override
     public int getJumpType() {
         jumpType = JUMP_NONE;
-        for (Mounted m : miscList) {
+        for (Mounted<?> m : miscList) {
             if (m.getType().hasFlag(MiscType.F_JUMP_JET)) {
                 if (m.getType().hasSubType(MiscType.S_IMPROVED)
                         && m.getType().hasSubType(MiscType.S_PROTOTYPE)) {
@@ -1259,7 +1259,7 @@ public abstract class Mech extends Entity {
         int extra = bDamagedCoolantSystem?1:0;
 
         // don't count movement granted by Partial Wing
-        for (Mounted mount : getMisc()) {
+        for (Mounted<?> mount : getMisc()) {
             if (mount.getType().hasFlag(MiscType.F_PARTIAL_WING)) {
                 movedMP -= getPartialWingJumpBonus(mount);
                 break;
@@ -1288,7 +1288,7 @@ public abstract class Mech extends Entity {
     public int torsoJumpJets() {
         int jump = 0;
 
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if (mounted.getType().hasFlag(MiscType.F_JUMP_JET)
                     && !mounted.isDestroyed() && !mounted.isBreached()
                     && locationIsTorso(mounted.getLocation())) {
@@ -1298,7 +1298,7 @@ public abstract class Mech extends Entity {
 
         // apply Partial Wing bonus if we have the ability to jump
         if (jump > 0) {
-            for (Mounted mount : getMisc()) {
+            for (Mounted<?> mount : getMisc()) {
                 if (mount.getType().hasFlag(MiscType.F_PARTIAL_WING)) {
                     jump += getPartialWingJumpBonus(mount);
                     break;
@@ -1474,7 +1474,7 @@ public abstract class Mech extends Entity {
      */
     public int heatSinks(boolean countPrototypes) {
         int sinks = 0;
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             EquipmentType etype = mounted.getType();
             if (etype.hasFlag(MiscType.F_COMPACT_HEAT_SINK)
                     && (etype.hasFlag(MiscType.F_DOUBLE_HEAT_SINK) || (etype
@@ -1494,7 +1494,7 @@ public abstract class Mech extends Entity {
      */
     public int damagedHeatSinks() {
         int sinks = 0;
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             EquipmentType etype = mounted.getType();
             if (!mounted.isDestroyed()) {
                 continue;
@@ -1514,7 +1514,7 @@ public abstract class Mech extends Entity {
      * @return
      */
     public String getHeatSinkTypeName() {
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             // The MiscType name for compact heat sinks is formatted differently
             if (m.getType().hasFlag(MiscType.F_COMPACT_HEAT_SINK)) {
                 return "Compact Heat Sink";
@@ -1548,7 +1548,7 @@ public abstract class Mech extends Entity {
         int activeCount = getActiveSinks();
         boolean isDoubleHeatSink = false;
 
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if (mounted.isDestroyed() || mounted.isBreached()) {
                 continue;
             }
@@ -1630,7 +1630,7 @@ public abstract class Mech extends Entity {
 
         // okay, count leg sinks
         int sinksUnderwater = 0;
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if (mounted.isDestroyed() || mounted.isBreached()
                     || !locationIsLeg(mounted.getLocation())) {
                 continue;
@@ -1866,7 +1866,7 @@ public abstract class Mech extends Entity {
      */
     @Override
     public int getWeaponArc(int wn) {
-        final Mounted mounted = getEquipment(wn);
+        final Mounted<?> mounted = getEquipment(wn);
 
         // B-Pods need to be special-cased, the have 360 firing arc
         if ((mounted.getType() instanceof WeaponType)
@@ -2743,7 +2743,7 @@ public abstract class Mech extends Entity {
         EquipmentType clCase = EquipmentType.get(EquipmentTypeLookup.CLAN_CASE);
         for (int i = 0; i < locations(); i++) {
             explosiveFound = false;
-            for (Mounted m : getEquipment()) {
+            for (Mounted<?> m : getEquipment()) {
                 if (m.getType().isExplosive(m, true)
                         && ((m.getLocation() == i) || (m.getSecondLocation() == i))) {
                     explosiveFound = true;
@@ -2771,10 +2771,10 @@ public abstract class Mech extends Entity {
         return mounted;
     }
 
-    public Mounted addEquipment(EquipmentType etype, EquipmentType etype2,
+    public Mounted<?> addEquipment(EquipmentType etype, EquipmentType etype2,
             int loc,  boolean omniPod, boolean armored) throws LocationFullException {
-        Mounted mounted = Mounted.createMounted(this, etype);
-        Mounted mounted2 = Mounted.createMounted(this, etype2);
+        Mounted<?> mounted = Mounted.createMounted(this, etype);
+        Mounted<?> mounted2 = Mounted.createMounted(this, etype2);
         mounted.setOmniPodMounted(omniPod);
         mounted2.setOmniPodMounted(omniPod);
         mounted.setArmored(armored);
@@ -2799,7 +2799,7 @@ public abstract class Mech extends Entity {
      * Mounts the specified weapon in the specified location.
      */
     @Override
-    public void addEquipment(Mounted mounted, int loc, boolean rearMounted)
+    public void addEquipment(Mounted<?> mounted, int loc, boolean rearMounted)
             throws LocationFullException {
         addEquipment(mounted, loc, rearMounted, -1);
     }
@@ -2808,7 +2808,7 @@ public abstract class Mech extends Entity {
      * Mounts the specified weapon in the specified location.
      */
     @Override
-    public void addEquipment(Mounted mounted, int loc, boolean rearMounted, int critSlot)
+    public void addEquipment(Mounted<?> mounted, int loc, boolean rearMounted, int critSlot)
             throws LocationFullException {
         // if there's no actual location or this is a LAM capital fighter weapons group,
         // or ammo for a LAM bomb weapon then don't add criticals
@@ -3217,7 +3217,7 @@ public abstract class Mech extends Entity {
         }
         int explicit = 0;
         Set<Integer> caseLocations = new HashSet<>();
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if ((m.getType() instanceof MiscType) && (m.getType().hasFlag(MiscType.F_CASE))) {
                 explicit++;
             } else if (m.getType().isExplosive(m)) {
@@ -3365,7 +3365,7 @@ public abstract class Mech extends Entity {
     @Override
     public boolean isStealthActive() {
         // Try to find a Mek Stealth system.
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_STEALTH)) {
 
@@ -3393,7 +3393,7 @@ public abstract class Mech extends Entity {
     @Override
     public boolean isStealthOn() {
         // Try to find a Mek Stealth system.
-        for (Mounted mEquip : getMisc()) {
+        for (Mounted<?> mEquip : getMisc()) {
             MiscType mtype = (MiscType) mEquip.getType();
             if (mtype.hasFlag(MiscType.F_STEALTH)) {
                 if (mEquip.curMode().equals("On")) {
@@ -3416,7 +3416,7 @@ public abstract class Mech extends Entity {
             return true;
         }
         if (!isShutDown()) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 EquipmentType type = m.getType();
                 if (type.hasFlag(MiscType.F_NULLSIG)
                         && m.curMode().equals("On") && m.isReady()) {
@@ -3430,7 +3430,7 @@ public abstract class Mech extends Entity {
     @Override
     public boolean isNullSigOn() {
         if (!isShutDown()) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 EquipmentType type = m.getType();
                 if (type.hasFlag(MiscType.F_NULLSIG)
                         && m.curMode().equals("On") && m.isReady()) {
@@ -3452,7 +3452,7 @@ public abstract class Mech extends Entity {
         }
 
         if (!isShutDown()) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 EquipmentType type = m.getType();
                 if (type.hasFlag(MiscType.F_VOIDSIG)
                         && m.curMode().equals("On") && m.isReady()) {
@@ -3469,7 +3469,7 @@ public abstract class Mech extends Entity {
     @Override
     public boolean isVoidSigOn() {
         if (!isShutDown()) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 EquipmentType type = m.getType();
                 if (type.hasFlag(MiscType.F_VOIDSIG)
                         && m.curMode().equals("On") && m.isReady()) {
@@ -3493,7 +3493,7 @@ public abstract class Mech extends Entity {
         }
 
         if (!isShutDown()) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 EquipmentType type = m.getType();
                 if (type.hasFlag(MiscType.F_CHAMELEON_SHIELD)
                         && m.curMode().equals("On") && m.isReady()) {
@@ -3512,7 +3512,7 @@ public abstract class Mech extends Entity {
     @Override
     public boolean isChameleonShieldOn() {
         if (!isShutDown()) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 EquipmentType type = m.getType();
                 if (type.hasFlag(MiscType.F_CHAMELEON_SHIELD)
                         && m.curMode().equals("On") && m.isReady()) {
@@ -3660,7 +3660,7 @@ public abstract class Mech extends Entity {
      */
     public int getNumberOfSinks() {
         int sinks = 0;
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if (mounted.isDestroyed() || mounted.isBreached()) {
                 continue;
             }
@@ -3675,7 +3675,7 @@ public abstract class Mech extends Entity {
     }
 
     public boolean hasDoubleHeatSinks() {
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if (mounted.getType().hasFlag(MiscType.F_HEAT_SINK)) {
                 return false;
             } else if (mounted.getType().hasFlag(MiscType.F_DOUBLE_HEAT_SINK)) {
@@ -3687,7 +3687,7 @@ public abstract class Mech extends Entity {
 
     public boolean hasLaserHeatSinks() {
         if (hasLaserHeatSinks == HAS_UNKNOWN) {
-            for (Mounted mounted : getMisc()) {
+            for (Mounted<?> mounted : getMisc()) {
                 if (mounted.getType().hasFlag(MiscType.F_HEAT_SINK)) {
                     hasLaserHeatSinks = HAS_FALSE;
                     break;
@@ -3742,7 +3742,7 @@ public abstract class Mech extends Entity {
         if (isIndustrial()) {
             result = false;
             // industrials can only eject when they have an ejection seat
-            for (Mounted misc : getMisc()) {
+            for (Mounted<?> misc : getMisc()) {
                 if (misc.getType().hasFlag(MiscType.F_EJECTION_SEAT)) {
                     result = true;
                 }
@@ -4298,7 +4298,7 @@ public abstract class Mech extends Entity {
                 .map(IBasicOption::getName)
                 .forEach(quirk -> sb.append(MtfFile.QUIRK).append(quirk).append(newLine));
 
-        for (Mounted equipment : getEquipment()) {
+        for (Mounted<?> equipment : getEquipment()) {
             for (IOption weaponQuirk : equipment.getQuirks().activeQuirks()) {
                 sb.append(MtfFile.WEAPON_QUIRK).append(weaponQuirk.getName()).append(":")
                         .append(getLocationAbbr(equipment.getLocation())).append(":")
@@ -4392,7 +4392,7 @@ public abstract class Mech extends Entity {
             sb.append(hasEngine() ? getEngine().getBaseChassisHeatSinks(hasCompactHeatSinks()) : 0);
             sb.append(newLine);
         }
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if ((mounted.getCriticals() == 0)
                     && !mounted.getType().hasFlag(MiscType.F_CASE)
                     && !EquipmentType.isArmorType(mounted.getType())
@@ -4434,7 +4434,7 @@ public abstract class Mech extends Entity {
         sb.append(newLine);
 
         sb.append("Weapons:").append(weaponList.size()).append(newLine);
-        for (Mounted m : weaponList) {
+        for (Mounted<?> m : weaponList) {
             sb.append(m.getName()).append(", ")
                     .append(getLocationName(m.getLocation())).append(newLine);
         }
@@ -4558,7 +4558,7 @@ public abstract class Mech extends Entity {
                 toReturn.append(getRawSystemName(index));
             }
         } else if (type == CriticalSlot.TYPE_EQUIPMENT) {
-            final Mounted m = cs.getMount();
+            final Mounted<?> m = cs.getMount();
             toReturn.append(m.getType().getInternalName());
             // Superheavy mechs can have a second ammo bin or heat sink in the same slot
             if (cs.getMount2() != null) {
@@ -5297,7 +5297,7 @@ public abstract class Mech extends Entity {
      * @return a <code>boolean</code> value indicating a present HarJel system
      */
     public boolean hasHarJelIIIn(int loc) {
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if ((mounted.getLocation() == loc) && mounted.isReady()
                     && (mounted.getType().hasFlag(MiscType.F_HARJEL_II))) {
                 return true;
@@ -5314,7 +5314,7 @@ public abstract class Mech extends Entity {
      * @return a <code>boolean</code> value indicating a present HarJel system
      */
     public boolean hasHarJelIIIIn(int loc) {
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if ((mounted.getLocation() == loc) && mounted.isReady()
                     && (mounted.getType().hasFlag(MiscType.F_HARJEL_III))) {
                 return true;
@@ -5702,7 +5702,7 @@ public abstract class Mech extends Entity {
 
         // all equipment gets 5% of BV cost per slot, or a flat +5 per slot
         // if BV is 0
-        for (Mounted mount : getEquipment()) {
+        for (Mounted<?> mount : getEquipment()) {
             if (!mount.isArmored()
                     || ((mount.getType() instanceof MiscType) && mount.getType().hasFlag(MiscType.F_PPC_CAPACITOR))) {
                 continue;
@@ -6155,7 +6155,7 @@ public abstract class Mech extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -6196,7 +6196,7 @@ public abstract class Mech extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -6233,7 +6233,7 @@ public abstract class Mech extends Entity {
 
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -6247,7 +6247,7 @@ public abstract class Mech extends Entity {
     }
 
     public boolean hasCompactHeatSinks() {
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if (mounted.getType().hasFlag(MiscType.F_COMPACT_HEAT_SINK)) {
                 return true;
             }
@@ -6305,7 +6305,7 @@ public abstract class Mech extends Entity {
             if (cs.getType() != CriticalSlot.TYPE_EQUIPMENT) {
                 continue;
             }
-            Mounted m = cs.getMount();
+            Mounted<?> m = cs.getMount();
             EquipmentType type = m.getType();
             if ((type instanceof MiscType)
                     && type.hasFlag(MiscType.F_HAND_WEAPON)
@@ -6341,8 +6341,8 @@ public abstract class Mech extends Entity {
      */
     public boolean doRISCEmergencyCoolantCheckFor(Vector<Report> vDesc,
             HashMap<Integer, List<CriticalSlot>> vCriticals) {
-        Mounted coolantSystem = null;
-        for (Mounted misc : getMisc()) {
+        Mounted<?> coolantSystem = null;
+        for (Mounted<?> misc : getMisc()) {
             if (misc.getType().hasFlag(MiscType.F_EMERGENCY_COOLANT_SYSTEM)
                     && !misc.isInoperable()) {
                 coolantSystem = misc;

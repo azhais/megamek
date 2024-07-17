@@ -1919,9 +1919,9 @@ public class Compute {
                 continue; // useless to us...
             }
 
-            Mounted tag = null;
+            Mounted<?> tag = null;
             int range = 0;
-            for (Mounted m : friend.getWeaponList()) {
+            for (Mounted<?> m : friend.getWeaponList()) {
                 WeaponType wtype = ((WeaponType) m.getType());
                 if (wtype.hasFlag(WeaponType.F_TAG)) {
                     tag = m;
@@ -2101,7 +2101,7 @@ public class Compute {
             return null; // no modifier
         }
         ToHitData mods = new ToHitData();
-        Mounted weapon = attacker.getEquipment(weaponId);
+        Mounted<?> weapon = attacker.getEquipment(weaponId);
         if (attacker.entityIsQuad()) {
             int legsDead = ((Mech) attacker).countBadLegs();
             if (legsDead == 0 && !attacker.hasHipCrit()) {
@@ -2241,7 +2241,7 @@ public class Compute {
      *
      * @return Any applicable damage modifiers
      */
-    public static ToHitData getDamageWeaponMods(Entity attacker, Mounted weapon) {
+    public static ToHitData getDamageWeaponMods(Entity attacker, Mounted<?> weapon) {
         ToHitData mods = new ToHitData();
         if (attacker instanceof Protomech) {
             // Head criticals add to target number of all weapons.
@@ -3783,7 +3783,7 @@ public class Compute {
                                         } else {
                                             ex_damage = 0.5;
                                         }
-                                        for (Mounted weapon : shooter.getWeaponList()) {
+                                        for (Mounted<?> weapon : shooter.getWeaponList()) {
                                             target_weapon = (WeaponType) weapon.getType();
                                             if ((target_weapon.getAmmoType() == AmmoType.T_LRM)
                                                     || (target_weapon.getAmmoType() == AmmoType.T_LRM_IMP)
@@ -3855,7 +3855,7 @@ public class Compute {
         int threshold = 12;
         int final_spin;
         Entity shooter;
-        Mounted weapon;
+        Mounted<?> weapon;
         WeaponType wtype = new WeaponType();
 
         // Double check this is an Ultra or Rotary cannon
@@ -5978,7 +5978,7 @@ public class Compute {
 
         // If the attacker has assault claws, give a -1 modifier.
         // We can stop looking when we find our first match.
-        for (Mounted mount : attacker.getMisc()) {
+        for (Mounted<?> mount : attacker.getMisc()) {
             EquipmentType equip = mount.getType();
             if (equip.hasFlag(MiscType.F_MAGNET_CLAW)) {
                 toReturn.addModifier(-1, "attacker has magnetic claws");
@@ -6059,7 +6059,7 @@ public class Compute {
             return true;
         }
 
-        for (Mounted club : game.getEntity(entityId).getClubs()) {
+        for (Mounted<?> club : game.getEntity(entityId).getClubs()) {
             if (null != club) {
                 if (ClubAttackAction.toHit(game, entityId, target, club,
                                            ToHitData.HIT_NORMAL, false).getValue() != TargetRoll.IMPOSSIBLE) {
@@ -6789,7 +6789,7 @@ public class Compute {
      * @param wtype
      * @return new damage
      */
-    public static int dialDownDamage(Mounted weapon, WeaponType wtype) {
+    public static int dialDownDamage(Mounted<?> weapon, WeaponType wtype) {
         return Compute.dialDownDamage(weapon, wtype, 1);
     }
 
@@ -6801,7 +6801,7 @@ public class Compute {
      * @param range
      * @return new damage
      */
-    public static int dialDownDamage(Mounted weapon, WeaponType wtype, int range) {
+    public static int dialDownDamage(Mounted<?> weapon, WeaponType wtype, int range) {
         int toReturn = wtype.getDamage(range);
 
         if (!weapon.hasModes()) {
@@ -6828,7 +6828,7 @@ public class Compute {
      * @param wtype
      * @return Heat, minimum of 1;
      */
-    public static int dialDownHeat(Mounted weapon, WeaponType wtype) {
+    public static int dialDownHeat(Mounted<?> weapon, WeaponType wtype) {
         return Compute.dialDownHeat(weapon, wtype, 1);
     }
 
@@ -6840,7 +6840,7 @@ public class Compute {
      * @param range
      * @return Heat, minimum of 1;
      */
-    public static int dialDownHeat(Mounted weapon, WeaponType wtype, int range) {
+    public static int dialDownHeat(Mounted<?> weapon, WeaponType wtype, int range) {
         int toReturn = wtype.getHeat();
 
         if (!weapon.hasModes()) {
@@ -7180,7 +7180,7 @@ public class Compute {
         if (entity instanceof SmallCraft || entity instanceof Jumpship) {
             int nStandardW = 0;
             int nCapitalW = 0;
-            for (Mounted m : entity.getTotalWeaponList()) {
+            for (Mounted<?> m : entity.getTotalWeaponList()) {
                 EquipmentType type = m.getType();
                 if (type instanceof BayWeapon) {
                     continue;
@@ -7287,7 +7287,7 @@ public class Compute {
                 // as separate facings
                 Set<Integer> facings = new HashSet<>();
                 Set<Integer> pintleLocations = new HashSet<>();
-                for (Mounted m : entity.getWeaponList()) {
+                for (Mounted<?> m : entity.getWeaponList()) {
                     if (m.isPintleTurretMounted()) {
                         // We consider pintle-mounted weapons in the same location to be in the same pintle
                         pintleLocations.add(m.getLocation());
@@ -7334,7 +7334,7 @@ public class Compute {
         }
 
         int crew = 0;
-        for (Mounted m : entity.getMisc()) {
+        for (Mounted<?> m : entity.getMisc()) {
             if (m.getType().hasFlag(MiscType.F_COMMUNICATIONS)) {
                 crew += (int) m.getTonnage();
             } else if (m.getType().hasFlag(MiscType.F_FIELD_KITCHEN)) {
@@ -7377,7 +7377,7 @@ public class Compute {
                     //we have no mechanism in MM to handle BA where some suits have the equipment
                     // and others do not
                     boolean useSuit = true;
-                    for (Mounted m : entity.getEquipment()) {
+                    for (Mounted<?> m : entity.getEquipment()) {
                         if (m.isMissingForTrooper(trooper)) {
                             useSuit = false;
                             break;
@@ -7459,7 +7459,7 @@ public class Compute {
     /**
      * Worker function that checks if an indirect attack is impossible for the given passed-in arguments
      */
-    public static boolean indirectAttackImpossible(Game game, Entity ae, Targetable target, WeaponType wtype, Mounted weapon) {
+    public static boolean indirectAttackImpossible(Game game, Entity ae, Targetable target, WeaponType wtype, Mounted<?> weapon) {
         boolean isLandedSpheroid = ae.isAero() && ((IAero) ae).isSpheroid() && (ae.getAltitude() == 0) && game.getBoard().onGround();
         int altDif = target.getAltitude() - ae.getAltitude();
         boolean noseWeaponAimedAtGroundTarget = (weapon != null) && (weapon.getLocation() == Aero.LOC_NOSE) && (altDif < 1);

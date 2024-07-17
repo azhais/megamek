@@ -14,7 +14,6 @@
  */
 package megamek.common;
 
-import megamek.common.actions.WeaponAttackAction;
 import megamek.common.enums.GamePhase;
 import megamek.common.equipment.AmmoMounted;
 import megamek.common.equipment.BombMounted;
@@ -25,7 +24,6 @@ import megamek.common.options.OptionsConstants;
 import megamek.common.options.WeaponQuirks;
 import megamek.common.weapons.AmmoWeapon;
 import megamek.common.weapons.Weapon;
-import megamek.common.weapons.WeaponHandler;
 import megamek.common.weapons.bayweapons.AmmoBayWeapon;
 import megamek.common.weapons.bayweapons.BayWeapon;
 import org.apache.logging.log4j.LogManager;
@@ -346,7 +344,7 @@ public class Mounted<T extends EquipmentType> implements Serializable, RoundUpda
         // all communications equipment mounteds need to have the same mode at all times
         if ((getType() instanceof MiscType)
                 && getType().hasFlag(MiscType.F_COMMUNICATIONS)) {
-            for (Mounted m : entity.getMisc()) {
+            for (Mounted<?> m : entity.getMisc()) {
                 if (!m.equals(this)
                         && m.getType().hasFlag(MiscType.F_COMMUNICATIONS)) {
                     m.setMode(newMode);
@@ -517,7 +515,7 @@ public class Mounted<T extends EquipmentType> implements Serializable, RoundUpda
      */
     public double getTonnage(RoundWeight defaultRounding) {
         if ((getType() instanceof MiscType) && getType().hasFlag(MiscType.F_DUMPER)) {
-            Mounted cargo = getLinked();
+            Mounted<?> cargo = getLinked();
             if (cargo != null) {
                 return defaultRounding.round(cargo.getSize() * 0.05, getEntity());
             }
@@ -910,7 +908,7 @@ public class Mounted<T extends EquipmentType> implements Serializable, RoundUpda
     }
 
     /** Returns true when m is a PPC Capacitor and not destroyed. */
-    private boolean isWorkingCapacitor(Mounted m) {
+    private boolean isWorkingCapacitor(Mounted<?> m) {
         return !m.isDestroyed()
         && m.getType() instanceof MiscType
         && ((MiscType) m.getType()).hasFlag(MiscType.F_PPC_CAPACITOR);

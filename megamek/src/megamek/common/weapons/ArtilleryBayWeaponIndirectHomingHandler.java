@@ -102,7 +102,7 @@ public class ArtilleryBayWeaponIndirectHomingHandler extends ArtilleryBayWeaponI
         Building bldg = game.getBoard().getBuildingAt(target.getPosition());
 
         //Determine what ammo we're firing for reporting and (later) damage
-        Mounted ammoUsed = ae.getEquipment(aaa.getAmmoId());
+        Mounted<?> ammoUsed = ae.getEquipment(aaa.getAmmoId());
         final AmmoType atype = (AmmoType) ammoUsed.getType();
         // Report weapon attack and its to-hit value.
         Report r = new Report(3124);
@@ -438,7 +438,7 @@ public class ArtilleryBayWeaponIndirectHomingHandler extends ArtilleryBayWeaponI
      * @param ammoUsed The ammoType used by this bay - as only homing shots can be intercepted by AMS
      * @return 1 hit if this missile survives any AMS fire, 0 if it is destroyed
      */
-    protected int handleAMS(Vector<Report> vPhaseReport, Mounted ammoUsed) {
+    protected int handleAMS(Vector<Report> vPhaseReport, Mounted<?> ammoUsed) {
 
         int hits = 1;
         if (((AmmoType) ammoUsed.getType()).getAmmoType() == AmmoType.T_ARROW_IV

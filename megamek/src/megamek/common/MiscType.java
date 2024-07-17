@@ -570,7 +570,7 @@ public class MiscType extends EquipmentType {
                 locationToCheck = Mech.LOC_HEAD;
             }
             double equipmentWeight = 0;
-            for (Mounted m : entity.getEquipment()) {
+            for (Mounted<?> m : entity.getEquipment()) {
                 if ((m.getLocation() == locationToCheck)
                         && (m.isMechTurretMounted())
                         && !(m.getType() instanceof AmmoType)
@@ -595,7 +595,7 @@ public class MiscType extends EquipmentType {
              * be correct.
              */
             double equipmentWeight = 0;
-            for (Mounted m : entity.getEquipment()) {
+            for (Mounted<?> m : entity.getEquipment()) {
                 if (m.isSponsonTurretMounted()
                         && !(m.getType() instanceof AmmoType)
                         && !((m.getType() instanceof MiscType) && m.getType().hasFlag(MiscType.F_HEAT_SINK))
@@ -615,7 +615,7 @@ public class MiscType extends EquipmentType {
             }
             double weaponWeight = 0;
             // 5% of linked weapons' weight
-            for (Mounted m : entity.getWeaponList()) {
+            for (Mounted<?> m : entity.getWeaponList()) {
                 if (m.isPintleTurretMounted() && (m.getLocation() == location)) {
                     weaponWeight += m.getTonnage();
                 }
@@ -630,13 +630,13 @@ public class MiscType extends EquipmentType {
         } else if (hasFlag(F_TARGCOMP)) {
             // based on tonnage of direct_fire weaponry
             double fTons = 0.0;
-            for (Mounted m : entity.getWeaponList()) {
+            for (Mounted<?> m : entity.getWeaponList()) {
                 WeaponType wt = (WeaponType) m.getType();
                 if (wt.hasFlag(WeaponType.F_DIRECT_FIRE)) {
                     fTons += m.getTonnage();
                 }
             }
-            for (Mounted m : entity.getMisc()) {
+            for (Mounted<?> m : entity.getMisc()) {
                 MiscType mt = (MiscType) m.getType();
                 if (mt.hasFlag(MiscType.F_RISC_LASER_PULSE_MODULE)) {
                     fTons += m.getTonnage();
@@ -752,7 +752,7 @@ public class MiscType extends EquipmentType {
             // 5% of weapon weight
             double weaponWeight = 0;
             // Don't count weight of AMS or light (e.g. non-support infantry) weapons
-            for (Mounted mount : entity.getWeaponList()) {
+            for (Mounted<?> mount : entity.getWeaponList()) {
                 if (!mount.getType().hasFlag(WeaponType.F_AMS)
                         && (!mount.getType().hasFlag(WeaponType.F_INFANTRY)
                         || mount.getType().hasFlag(WeaponType.F_INF_SUPPORT))) {
@@ -948,14 +948,14 @@ public class MiscType extends EquipmentType {
             } else if (hasFlag(MiscType.F_TARGCOMP)) {
                 int tCompTons = 0;
                 double fTons = 0.0f;
-                for (Mounted mo : entity.getWeaponList()) {
+                for (Mounted<?> mo : entity.getWeaponList()) {
                     WeaponType wt = (WeaponType) mo.getType();
                     if (wt.hasFlag(WeaponType.F_DIRECT_FIRE)) {
                         fTons += mo.getTonnage();
                     }
                 }
 
-                for (Mounted mo : entity.getMisc()) {
+                for (Mounted<?> mo : entity.getMisc()) {
                     MiscType mt = (MiscType) mo.getType();
                     if (mt.hasFlag(MiscType.F_RISC_LASER_PULSE_MODULE)) {
                         fTons += mo.getTonnage();
@@ -1045,14 +1045,14 @@ public class MiscType extends EquipmentType {
             } else if (hasFlag(F_BASIC_FIRECONTROL)) {
                 // 5% of weapon cost
                 double weaponCost = 0;
-                for (Mounted mount : entity.getWeaponList()) {
+                for (Mounted<?> mount : entity.getWeaponList()) {
                     weaponCost += mount.getCost();
                 }
                 costValue = weaponCost * 0.05;
             } else if (hasFlag(F_ADVANCED_FIRECONTROL)) {
                 // 10% of weapon cost
                 double weaponCost = 0;
-                for (Mounted mount : entity.getWeaponList()) {
+                for (Mounted<?> mount : entity.getWeaponList()) {
                     weaponCost += mount.getCost();
                 }
                 costValue = weaponCost * 0.1;
@@ -1103,14 +1103,14 @@ public class MiscType extends EquipmentType {
         } else if (hasFlag(F_TARGCOMP)) {
             // based on tonnage of direct_fire weaponry
             double fTons = 0.0;
-            for (Mounted m : entity.getWeaponList()) {
+            for (Mounted<?> m : entity.getWeaponList()) {
                 WeaponType wt = (WeaponType) m.getType();
                 if (wt.hasFlag(WeaponType.F_DIRECT_FIRE)) {
                     fTons += m.getTonnage();
                 }
             }
 
-            for (Mounted mo : entity.getMisc()) {
+            for (Mounted<?> mo : entity.getMisc()) {
                 MiscType mt = (MiscType) mo.getType();
                 if (mt.hasFlag(MiscType.F_RISC_LASER_PULSE_MODULE)) {
                     fTons += mo.getTonnage();
@@ -1336,7 +1336,7 @@ public class MiscType extends EquipmentType {
         return super.getTankSlots(entity);
     }
 
-    public double getBV(Entity entity, Mounted linkedTo) {
+    public double getBV(Entity entity, Mounted<?> linkedTo) {
         if (hasFlag(F_PPC_CAPACITOR) && (linkedTo != null) && (linkedTo.getLinkedBy() != null)) {
 
             if (linkedTo.getType() instanceof ISLightPPC) {

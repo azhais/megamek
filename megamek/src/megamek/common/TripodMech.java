@@ -145,7 +145,7 @@ public class TripodMech extends Mech {
         //A Mech using tracks has its movement reduced by 1/3 per leg or track destroyed, based
         //on analogy with biped and quad mechs.
         if (getMovementMode().isTracked()) {
-            for (Mounted m : getMisc()) {
+            for (Mounted<?> m : getMisc()) {
                 if (m.getType().hasFlag(MiscType.F_TRACKS)) {
                     if (m.isHit() || isLocationBad(m.getLocation())) {
                         legsDestroyed++;
@@ -420,7 +420,7 @@ public class TripodMech extends Mech {
             if (cs.getType() != CriticalSlot.TYPE_EQUIPMENT) {
                 continue;
             }
-            Mounted m = cs.getMount();
+            Mounted<?> m = cs.getMount();
             EquipmentType type = m.getType();
             if ((type instanceof MiscType)
                 && type.hasFlag(MiscType.F_HAND_WEAPON)
@@ -474,7 +474,7 @@ public class TripodMech extends Mech {
             if (cs.getType() != CriticalSlot.TYPE_EQUIPMENT) {
                 continue;
             }
-            Mounted m = cs.getMount();
+            Mounted<?> m = cs.getMount();
             // sometimes this mounted is null in MML - causing problems so check
             if (null == m) {
                 continue;
@@ -493,7 +493,7 @@ public class TripodMech extends Mech {
      */
     @Override
     public boolean hasRetractedBlade(int loc) {
-        for (Mounted m : getEquipment()) {
+        for (Mounted<?> m : getEquipment()) {
             if ((m.getLocation() == loc) && !m.isDestroyed() && !m.isBreached()
                 && (m.getType() instanceof MiscType)
                 && m.getType().hasFlag(MiscType.F_CLUB)
@@ -534,7 +534,7 @@ public class TripodMech extends Mech {
             if (cs.getType() != CriticalSlot.TYPE_EQUIPMENT) {
                 continue;
             }
-            Mounted m = cs.getMount();
+            Mounted<?> m = cs.getMount();
             // sometimes this mounted is null in MML - causing problems so check
             if (null == m) {
                 continue;
@@ -566,7 +566,7 @@ public class TripodMech extends Mech {
      */
     @Override
     public boolean hasShield() {
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             EquipmentType type = m.getType();
             if (((m.getLocation() == Mech.LOC_LARM) || (m.getLocation() == Mech.LOC_RARM))
                     && (type instanceof MiscType)
@@ -602,7 +602,7 @@ public class TripodMech extends Mech {
         int raShield = 0;
         int laShield = 0;
 
-        for (Mounted m : getMisc()) {
+        for (Mounted<?> m : getMisc()) {
             EquipmentType type = m.getType();
             if ((type instanceof MiscType) && type.hasFlag(MiscType.F_CLUB)
                 && (type.hasSubType(size))) {
@@ -822,7 +822,7 @@ public class TripodMech extends Mech {
             return false;
         }
 
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if ((mounted.getLocation() == location)
                 && mounted.getType().hasFlag(
                     MiscType.F_ACTUATOR_ENHANCEMENT_SYSTEM)
@@ -849,7 +849,7 @@ public class TripodMech extends Mech {
         boolean leftLeg = false;
         boolean centerLeg = false;
 
-        for (Mounted mounted : getMisc()) {
+        for (Mounted<?> mounted : getMisc()) {
             if ((mounted.getLocation() == Mech.LOC_LLEG)
                 || (mounted.getLocation() == Mech.LOC_RLEG)
                 || (mounted.getLocation() == Mech.LOC_CLEG)) {

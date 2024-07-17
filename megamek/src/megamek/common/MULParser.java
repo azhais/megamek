@@ -1779,7 +1779,7 @@ public class MULParser {
                 }
             } else {
                 // Nope, we've got equipment. Get this slot's mounted.
-                Mounted mounted = slot.getMount();
+                Mounted<?> mounted = slot.getMount();
 
                 // Reset transient values.
                 mounted.restore();
@@ -1916,7 +1916,7 @@ public class MULParser {
                     }
                 }
                 if (entity.isSupportVehicle() && (mounted.getType() instanceof InfantryWeapon)) {
-                    for (Mounted ammo = mounted.getLinked(); ammo != null; ammo = ammo.getLinked()) {
+                    for (Mounted<?> ammo = mounted.getLinked(); ammo != null; ammo = ammo.getLinked()) {
                         if (((AmmoType) ammo.getType()).getMunitionType().contains(AmmoType.Munitions.M_INFERNO)) {
                             if (!inferno.isBlank()) {
                                 String[] fields = inferno.split(":");
@@ -2560,10 +2560,10 @@ public class MULParser {
         }
 
         // Find the Mounted instance for the MEA
-        Mounted mountedManip = null;
+        Mounted<?> mountedManip = null;
         int meaMountLoc = Integer.parseInt(meaMountLocString);
         boolean foundMea = false;
-        for (Mounted m : entity.getEquipment()) {
+        for (Mounted<?> m : entity.getEquipment()) {
             if ((m.getBaMountLoc() == meaMountLoc) && m.getType().hasFlag(MiscType.F_BA_MEA)) {
                 foundMea = true;
                 break;
@@ -2621,7 +2621,7 @@ public class MULParser {
             return;
         }
 
-        Mounted apMount = entity.getEquipment(Integer.parseInt(mountNumber));
+        Mounted<?> apMount = entity.getEquipment(Integer.parseInt(mountNumber));
         // We may mount no AP weapon
         EquipmentType apType = null;
         if (!apTypeName.isBlank()) {
@@ -2630,7 +2630,7 @@ public class MULParser {
 
         // Remove any currently mounted AP weapon
         if ((apMount.getLinked() != null) && (apMount.getLinked().getType() != apType)) {
-            Mounted apWeapon = apMount.getLinked();
+            Mounted<?> apWeapon = apMount.getLinked();
             entity.getEquipment().remove(apWeapon);
             entity.getWeaponList().remove(apWeapon);
             entity.getTotalWeaponList().remove(apWeapon);
@@ -2654,7 +2654,7 @@ public class MULParser {
 
         // Add the newly mounted weapon
         try {
-            Mounted newWeap = entity.addEquipment(apType, apMount.getLocation());
+            Mounted<?> newWeap = entity.addEquipment(apType, apMount.getLocation());
             apMount.setLinked(newWeap);
             newWeap.setLinked(apMount);
             newWeap.setAPMMounted(true);
@@ -2816,7 +2816,7 @@ public class MULParser {
         }
 
         // equipment marked missing
-        for (Mounted mounted : en.getEquipment()) {
+        for (Mounted<?> mounted : en.getEquipment()) {
             if (mounted.getLocation() == loc) {
                 mounted.setDestroyed(true);
             }
@@ -2832,7 +2832,7 @@ public class MULParser {
 
     private void breachLocation(Entity en, int loc) {
         // equipment marked breached
-        for (Mounted mounted : en.getEquipment()) {
+        for (Mounted<?> mounted : en.getEquipment()) {
             if (mounted.getLocation() == loc) {
                 mounted.setBreached(true);
             }
@@ -2849,7 +2849,7 @@ public class MULParser {
 
     private void blowOffLocation(Entity en, int loc) {
         en.setLocationBlownOff(loc, true);
-        for (Mounted mounted : en.getEquipment()) {
+        for (Mounted<?> mounted : en.getEquipment()) {
             if (mounted.getLocation() == loc) {
                 mounted.setMissing(true);
             }

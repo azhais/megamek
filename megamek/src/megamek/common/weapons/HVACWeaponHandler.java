@@ -102,7 +102,7 @@ public class HVACWeaponHandler extends ACWeaponHandler {
                         (slot1.getType() == CriticalSlot.TYPE_SYSTEM)) {
                     continue;
                 }
-                Mounted mounted = slot1.getMount();
+                Mounted<?> mounted = slot1.getMount();
                 if (mounted.equals(weapon)) {
                     ae.hitAllCriticals(wloc, i);
                     break;

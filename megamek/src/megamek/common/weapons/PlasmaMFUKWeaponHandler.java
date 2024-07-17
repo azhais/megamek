@@ -23,7 +23,6 @@ import megamek.common.*;
 import megamek.common.actions.WeaponAttackAction;
 import megamek.common.equipment.ArmorType;
 import megamek.server.GameManager;
-import megamek.server.Server;
 
 import java.util.Vector;
 

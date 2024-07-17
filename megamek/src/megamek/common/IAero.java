@@ -221,7 +221,7 @@ public interface IAero {
                 String name = key.split(":")[0];
                 int loc = Integer.parseInt(key.split(":")[1]);
                 EquipmentType etype = EquipmentType.get(name);
-                Mounted newmount;
+                Mounted<?> newmount;
                 if (etype != null) {
                     try {
                         newmount = ((Entity) this).addWeaponGroup(etype, loc);

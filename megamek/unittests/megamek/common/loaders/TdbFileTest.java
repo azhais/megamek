@@ -91,7 +91,7 @@ public class TdbFileTest {
         int jjRT = 0;
         int jjLT = 0;
 
-        for (Mounted m : mek.getEquipment()) {
+        for (Mounted<?> m : mek.getEquipment()) {
             switch (m.getLocation()) {
                 case Mech.LOC_CT:
                     if ("Jump Jet".equals(m.getName())) {
@@ -214,7 +214,7 @@ public class TdbFileTest {
         int jjRRL = 0;
         int jjRLL = 0;
 
-        for (Mounted m : mek.getEquipment()) {
+        for (Mounted<?> m : mek.getEquipment()) {
             switch (m.getLocation()) {
                 case Mech.LOC_CT:
                     if (!foundSSRM && "Streak SRM 2".equals(m.getName())) {

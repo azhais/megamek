@@ -14,7 +14,6 @@ package megamek.common;
 
 import megamek.client.ui.swing.calculationReport.CalculationReport;
 import megamek.common.cost.ConvFighterCostCalculator;
-import megamek.common.options.GameOptions;
 import megamek.common.options.OptionsConstants;
 
 /**

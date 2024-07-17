@@ -247,7 +247,7 @@ public class GunEmplacement extends Tank {
     }
 
     @Override
-    public void addEquipment(Mounted mounted, int loc, boolean rearMounted)
+    public void addEquipment(Mounted<?> mounted, int loc, boolean rearMounted)
             throws LocationFullException {
         super.addEquipment(mounted, loc, rearMounted);
         // Add the piece equipment to our slots.
@@ -276,7 +276,7 @@ public class GunEmplacement extends Tank {
     public boolean isDmgHeavy() {
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -288,7 +288,7 @@ public class GunEmplacement extends Tank {
     public boolean isDmgLight() {
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -301,7 +301,7 @@ public class GunEmplacement extends Tank {
     public boolean isDmgModerate() {
         int totalWeapons = getTotalWeaponList().size();
         int totalInoperable = 0;
-        for (Mounted weap : getTotalWeaponList()) {
+        for (Mounted<?> weap : getTotalWeaponList()) {
             if (weap.isCrippled()) {
                 totalInoperable++;
             }
@@ -383,7 +383,7 @@ public class GunEmplacement extends Tank {
      */
     @Override
     public int getDamagedCriticals(int type, int index, int loc) {
-        Mounted m;
+        Mounted<?> m;
         if (type == CriticalSlot.TYPE_EQUIPMENT) {
             m = getEquipment(index);
             

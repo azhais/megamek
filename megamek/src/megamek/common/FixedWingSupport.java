@@ -14,7 +14,6 @@ package megamek.common;
 import megamek.client.ui.swing.calculationReport.CalculationReport;
 import megamek.common.cost.FixedWingSupportCostCalculator;
 import megamek.common.equipment.ArmorType;
-import megamek.common.options.OptionsConstants;
 
 /**
  * @author Jason Tighe
@@ -240,7 +239,7 @@ public class FixedWingSupport extends ConvFighter {
         // fixed wing support craft need external stores hardpoints or the Internal Bomb Bay quirk
         // to be able to carry bombs.
         int bombpoints = 0;
-        for (Mounted misc : getMisc()) {
+        for (Mounted<?> misc : getMisc()) {
             if (misc.getType().hasFlag(MiscType.F_EXTERNAL_STORES_HARDPOINT)) {
                 bombpoints++;
             }

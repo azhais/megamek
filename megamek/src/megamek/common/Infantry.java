@@ -745,7 +745,7 @@ public class Infantry extends Entity {
 
     @Override
     public int getWeaponArc(int wn) {
-        Mounted weapon = getEquipment(wn);
+        Mounted<?> weapon = getEquipment(wn);
         // Infantry can fire all around themselves. But field guns are set up to a vehicular turret facing
         if (isFieldWeapon(weapon)) {
             if (game.getOptions().booleanOption(OptionsConstants.ADVCOMBAT_TACOPS_VEHICLE_ARCS)) {
@@ -844,7 +844,7 @@ public class Infantry extends Entity {
      */
     protected void damageFieldWeapons() {
         int totalCrewNeeded = 0;
-        for (Mounted weapon : activeFieldWeapons()) {
+        for (Mounted<?> weapon : activeFieldWeapons()) {
             totalCrewNeeded += requiredCrewForFieldWeapon((WeaponType) weapon.getType());
             if (totalCrewNeeded > activeTroopers) {
                 weapon.setHit(true);
@@ -859,7 +859,7 @@ public class Infantry extends Entity {
      */
     public void damageOrRestoreFieldWeapons() {
         int totalCrewNeeded = 0;
-        for (Mounted weapon : originalFieldWeapons()) {
+        for (Mounted<?> weapon : originalFieldWeapons()) {
             totalCrewNeeded += requiredCrewForFieldWeapon((WeaponType) weapon.getType());
             weapon.setHit(totalCrewNeeded > activeTroopers);
             weapon.setDestroyed(totalCrewNeeded > activeTroopers);
@@ -876,17 +876,17 @@ public class Infantry extends Entity {
     }
 
     /** @return Active field guns and artillery of this infantry (= not including destroyed ones). Empty on BA. */
-    public List<Mounted> activeFieldWeapons() {
+    public List<Mounted<?>> activeFieldWeapons() {
         return originalFieldWeapons().stream().filter(e -> !e.isDestroyed()).collect(toList());
     }
 
     /** @return All field guns and artillery of this infantry including destroyed ones. Empty on BA. */
-    public List<Mounted> originalFieldWeapons() {
+    public List<Mounted<?>> originalFieldWeapons() {
         return getEquipment().stream().filter(this::isFieldWeapon).collect(toList());
     }
 
     /** @return True when the given Mounted is a Field Gun or Artillery. On BA, always returns false. */
-    protected boolean isFieldWeapon(Mounted equipment) {
+    protected boolean isFieldWeapon(Mounted<?> equipment) {
         return (equipment.getType() instanceof WeaponType) && (equipment.getLocation() == LOC_FIELD_GUNS);
     }
 
@@ -1320,8 +1320,8 @@ public class Infantry extends Entity {
             }
         } else if ((spec & TRENCH_ENGINEERS) == 0 && (infSpecs & TRENCH_ENGINEERS) > 0) {
             // Need to remove vibro shovels
-            List<Mounted> eqToRemove = new ArrayList<>();
-            for (Mounted eq : getEquipment()) {
+            List<Mounted<?>> eqToRemove = new ArrayList<>();
+            for (Mounted<?> eq : getEquipment()) {
                 if (eq.getType().hasFlag(MiscType.F_TOOLS) && eq.getType().hasSubType(MiscType.S_VIBROSHOVEL)) {
                     eqToRemove.add(eq);
                 }
@@ -1340,8 +1340,8 @@ public class Infantry extends Entity {
             }
         } else if ((spec & DEMO_ENGINEERS) == 0 && (infSpecs & DEMO_ENGINEERS) > 0) {
             // Need to remove vibro shovels
-            List<Mounted> eqToRemove = new ArrayList<>();
-            for (Mounted eq : getEquipment()) {
+            List<Mounted<?>> eqToRemove = new ArrayList<>();
+            for (Mounted<?> eq : getEquipment()) {
                 if (eq.getType().hasFlag(MiscType.F_TOOLS) && eq.getType().hasSubType(MiscType.S_DEMOLITION_CHARGE)) {
                     eqToRemove.add(eq);
                 }
@@ -1778,7 +1778,7 @@ public class Infantry extends Entity {
     }
 
     @Override
-    public void addEquipment(Mounted mounted, int loc, boolean rearMounted) throws LocationFullException {
+    public void addEquipment(Mounted<?> mounted, int loc, boolean rearMounted) throws LocationFullException {
         super.addEquipment(mounted, loc, rearMounted);
         // Add equipment slots for ammo switching of field guns and field artillery
         addCritical(loc, new CriticalSlot(mounted));

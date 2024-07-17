@@ -103,12 +103,6 @@ public abstract class AbstractGame implements IGame {
     }
 
     @Override
-    @Deprecated
-    public Enumeration<Player> getPlayers() {
-        return players.elements();
-    }
-
-    @Override
     public List<Player> getPlayersList() {
         return new ArrayList<>(players.values());
     }

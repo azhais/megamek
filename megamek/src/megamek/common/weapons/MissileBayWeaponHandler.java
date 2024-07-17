@@ -208,8 +208,8 @@ public class MissileBayWeaponHandler extends AmmoBayWeaponHandler {
     @Override
     protected double updateAVforAmmo(double current_av, AmmoType atype,
                                      WeaponType bayWType, int range, int wId) {
-        Mounted bayW = ae.getEquipment(wId);
-        Mounted mLinker = bayW.getLinkedBy();
+        Mounted<?> bayW = ae.getEquipment(wId);
+        Mounted<?> mLinker = bayW.getLinkedBy();
         int bonus = 0;
         if ((mLinker != null && mLinker.getType() instanceof MiscType
                 && !mLinker.isDestroyed() && !mLinker.isMissing()

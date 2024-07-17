@@ -404,11 +404,11 @@ public class EquipmentType implements ITechnology {
         return svslots;
     }
 
-    public boolean isExplosive(Mounted mounted) {
+    public boolean isExplosive(Mounted<?> mounted) {
         return isExplosive(mounted, false);
     }
 
-    public boolean isExplosive(Mounted mounted, boolean ignoreCharge) {
+    public boolean isExplosive(Mounted<?> mounted, boolean ignoreCharge) {
         if (null == mounted) {
             return explosive;
         }
@@ -445,7 +445,7 @@ public class EquipmentType implements ITechnology {
             if (!mounted.isUsedThisRound()) {
                 return false;
             }
-            Mounted ammo = mounted.getLinked();
+            Mounted<?> ammo = mounted.getLinked();
             if ((ammo == null) || !(ammo.getType() instanceof AmmoType)
                     || (!((AmmoType) ammo.getType()).getMunitionType().contains(AmmoType.Munitions.M_INCENDIARY_AC))) {
                 return false;
